@@ -59,21 +59,21 @@ export function getMenuList(pathname: string, userRole: string): Group[] {
                     requiredRole: ["hr_manager"]
                 },
                 {
-                    href: "/employees",
+                    href: route("employees"),
                     label: "Employees",
-                    active: pathname.includes("/employees"),
+                    active: pathname.includes(route("employees")),
                     icon: Users,
                     submenus: [
                         {
-                            href: "/employees",
+                            href: route("employees"),
                             label: "All Employees",
-                            active: pathname === "/employees",
+                            active: pathname === route("employees"),
                             requiredRole: ["hr_manager"]
                         },
                         {
-                            href: "/employees/new",
+                            href: route("employees.create"),
                             label: "New Employee",
-                            active: pathname === "/employees/new",
+                            active: pathname === route("employees.create"),
                             requiredRole: ["hr_manager"]
                         }
                     ],

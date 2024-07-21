@@ -7,7 +7,7 @@ import { PageProps } from "@/types";
 import { Link, usePage } from "@inertiajs/react";
 import { PropsWithChildren } from "react";
 
-export default function Guest({ children }: PropsWithChildren) {
+export default function GuestLayout({ children }: PropsWithChildren) {
     const { flash } = usePage<PageProps>().props;
     return (
         <div className="flex flex-col items-center justify-between min-h-screen bg-gray-50 dark:bg-gray-900">

@@ -1,4 +1,29 @@
+import { EmployeePaginatedResponse } from "./employees";
+
+export interface Link {
+    url: string | null;
+    label: string;
+    active: boolean;
+}
+export interface PaginatedResponse<T> {
+    current_page: number;
+    data: T[];
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    links: Link[];
+    next_page_url: string | null;
+    path: string;
+    per_page: number;
+    prev_page_url: string | null;
+    to: number;
+    total: number;
+}
+
 export type RoleSlug = "admin" | "hr_manager" | "department_manager" | "employee";
+
+
 
 export interface Role {
     id: number;
@@ -20,11 +45,11 @@ export interface Department {
 
 export interface Employee {
     id: number,
-    address: string,
-    mobile: string,
-    birth_date: string,
-    hire_date: string,
-    photo: string,
+    address: string | null,
+    mobile: string | null,
+    birth_date: string | null,
+    hire_date: string | null,
+    photo: string | null,
     department: Department,
     created_at: string;
     updated_at: string;
@@ -36,7 +61,7 @@ export interface User {
     username: string;
     email: string;
     employee: Employee;
-    email_verified_at: string;
+    email_verified_at: string | null;
     roles: Role[];
     created_at: string;
     updated_at: string;
@@ -66,4 +91,10 @@ export type EditProfilePageProps = PageProps<{
     status?: string;
     roles: Role[];
     departments: Department[];
+}>;
+
+
+export type EmployeesPageProps = PageProps<{
+    pagination: EmployeePaginatedResponse;
+    filter: string | null;
 }>;

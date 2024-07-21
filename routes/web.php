@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProfileController;
-use GuzzleHttp\Middleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -26,6 +25,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
+    Route::get('/employees', [EmployeeController::class, 'index'])->name('employees');
+    Route::post('/employees', [EmployeeController::class, 'create'])->name('employees.create');
     Route::patch('/employee', [EmployeeController::class, 'update'])->name('employee.update');
     Route::post('/employee/update-photo', [EmployeeController::class, 'updatePhoto'])->name('employee.update.photo');
 

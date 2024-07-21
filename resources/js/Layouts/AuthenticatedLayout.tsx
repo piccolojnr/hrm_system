@@ -1,5 +1,5 @@
-import { useState, PropsWithChildren } from "react";
-import { PageProps, User } from "@/types";
+import { PropsWithChildren } from "react";
+import { PageProps } from "@/types";
 import Sidebar from "@/components/panel/sidebar";
 import { useStore } from "zustand";
 import { useSidebarToggle } from "@/hooks/use-sidebar-toggle";
@@ -10,7 +10,7 @@ import { usePage } from "@inertiajs/react";
 import ToastContainer from "@/components/ToastContainer";
 import { Toaster } from "@/components/ui/toaster";
 
-export default function Authenticated({
+export default function AuthenticatedLayout({
     children,
     title,
 }: PropsWithChildren<{ title: string }>) {

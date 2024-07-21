@@ -4,13 +4,32 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployeeUpdateRequest;
 use App\Models\Department;
+use App\Models\Employee;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class EmployeeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('employees.index');
+        $filter = $request->query('user_name', '');
+
+        $pagination = Employee::whereHas('user', function ($query) use ($filter) {
+            $query->where('name', 'like', "%{$filter}%");
+        })
+            ->with('user', 'department')
+            ->paginate(10);
+
+        return Inertia::render("Employees/index", [
+            "pagination" => $pagination,
+            "filter" => $filter,  // Pass filter value to the component
+        ]);
+    }
+
+
+    public function create()
+    {
+        return Inertia::render("Employees/New");
     }
 
     public function update(EmployeeUpdateRequest $request)
