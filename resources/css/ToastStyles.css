@@ -1,0 +1,28 @@
+/* ToastStyles.css */
+.toast {
+    position: fixed;
+    top: 1rem;
+    right: 20px;
+    z-index: 50;
+    width: 300px;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+
+.toast-success {
+    background-color: #38a169; /* Green */
+}
+
+.toast-error {
+    background-color: #e53e3e; /* Red */
+}
+
+.toast-info {
+    background-color: #3182ce; /* Blue */
+}
+
+.toast-warning {
+    background-color: #dd6b20; /* Orange */
+}
