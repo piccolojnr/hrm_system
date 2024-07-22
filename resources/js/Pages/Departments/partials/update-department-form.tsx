@@ -2,24 +2,27 @@ import InputError from "@/components/InputError";
 import InputLabel from "@/components/InputLabel";
 import PrimaryButton from "@/components/PrimaryButton";
 import TextInput from "@/components/TextInput";
+import { Department } from "@/types/departments";
 import { useForm } from "@inertiajs/react";
 import { FormEventHandler } from "react";
 
-export default function CreateDepartmentForm({
+export default function UpdateDepartmentForm({
     className = "",
+    department,
 }: {
     className?: string;
+    department: Department;
 }) {
-    const { data, setData, post, errors, processing } = useForm({
-        name: "",
-        description: "",
-        head: "",
+    const { data, setData, patch, errors, processing } = useForm({
+        name: department.name,
+        description: department.description,
+        head: department.head.username,
     });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post(route("departments.create"));
+        patch(route("departments.update", department.id));
     };
 
     return (
@@ -90,7 +93,7 @@ export default function CreateDepartmentForm({
                     <InputError className="mt-2" message={errors.head} />
                 </div>
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Create</PrimaryButton>
+                    <PrimaryButton disabled={processing}>Update</PrimaryButton>
                 </div>
             </form>
         </section>

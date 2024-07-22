@@ -17,3 +17,8 @@ export type DepartmentsPageProps = PageProps<{
     pagination: DepartmentPaginatedResponse;
     filter: string | null;
 }>;
+
+
+export type EditDepartmentPageProps = PageProps<{
+    department: Department;
+}>;

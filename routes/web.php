@@ -41,6 +41,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/departments/create', [DepartmentController::class, 'create'])->name('departments.create');
     Route::post('/departments/create', [DepartmentController::class, 'store'])->name('departments.create');
     Route::get('/departments/{id}/show', [DepartmentController::class, 'show'])->name('departments.show');
+    Route::patch('/departments/{id}/update', [DepartmentController::class, 'update'])->name('departments.update');
+    Route::delete('/departmetns/{id}', [DepartmentController::class, 'destroy'])->name('departments.destroy');
 
 });
 
