@@ -114,6 +114,7 @@ class DatabaseSeeder extends Seeder
                 'department' => 'finance',
             ],
         ];
+        $userInstances = [];
         foreach ($users as $userData) {
             $user = User::factory()->create([
                 'name' => $userData['name'],
@@ -134,11 +135,14 @@ class DatabaseSeeder extends Seeder
                 'birth_date' => $userData['birth_date'],
                 'hire_date' => $userData['hire_date'],
                 'photo' => null,
-                null,
+                'department_id' => $departmentInstances[$userData['department']]->id,
             ]);
+            $userInstances[] = $user;
         }
 
-
-
+        foreach ($userInstances as $user) {
+            $user->employee->department->head_id = $user->id;
+            $user->employee->department->save();
+        }
     }
 }

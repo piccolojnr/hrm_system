@@ -4,7 +4,7 @@ import PrimaryButton from "@/components/PrimaryButton";
 import TextInput from "@/components/TextInput";
 import { useForm, usePage } from "@inertiajs/react";
 import { FormEventHandler } from "react";
-import { CreateEmployeePageProps, RoleSlug } from "@/types";
+import { RoleSlug } from "@/types";
 import CustomMultiSelect from "@/components/extension/multi-select";
 import {
     Select,
@@ -15,6 +15,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { CreateEmployeePageProps } from "@/types/employees";
 export default function CreateUserForm({
     className = "",
 }: {

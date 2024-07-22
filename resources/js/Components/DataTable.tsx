@@ -31,24 +31,27 @@ import {
 } from "@/components/ui/table";
 import { ChevronDownIcon } from "lucide-react";
 import { Link, useForm, usePage } from "@inertiajs/react";
-import { EmployeesPageProps, PaginatedResponse } from "@/types";
+import { PaginatedResponse } from "@/types";
 import { cn } from "@/lib/utils";
+import { EmployeesPageProps } from "@/types/employees";
 
 export function DataTable<T>({
     columns,
     filterName,
     pagination,
+    visibleColumns = {},
 }: {
     columns: ColumnDef<T>[];
     pagination: PaginatedResponse<T>;
     filterName: string;
+    visibleColumns?: VisibilityState;
 }) {
     const { data } = pagination;
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] =
-        React.useState<VisibilityState>({});
+        React.useState<VisibilityState>(visibleColumns);
     const [rowSelection, setRowSelection] = React.useState({});
 
     const table = useReactTable({
@@ -150,11 +153,7 @@ export function DataTable<T>({
                     </TableBody>
                 </Table>
             </div>
-            <Pagination
-                pagination={pagination}
-                table={table}
-                filterName={filterName}
-            />
+            <Pagination pagination={pagination} table={table} />
         </div>
     );
 }
@@ -162,20 +161,10 @@ export function DataTable<T>({
 function Pagination<T>({
     pagination: { current_page, last_page, next_page_url, prev_page_url },
     table,
-    filterName,
 }: {
     pagination: PaginatedResponse<T>;
     table: ITable<T>;
-    filterName: string;
 }) {
-    const { filter } = usePage<EmployeesPageProps>().props;
-    const getUrlWithFilter = (url: string | null) => {
-        if (!url) return "";
-        const urlObj = new URL(url);
-        urlObj.searchParams.set(filterName, filter || "");
-        return urlObj.toString();
-    };
-
     return (
         <div className="flex items-center justify-end space-x-2 py-4">
             <div className="flex-1 text-sm text-muted-foreground">
@@ -187,7 +176,7 @@ function Pagination<T>({
             </div>
 
             <Link
-                href={getUrlWithFilter(prev_page_url)}
+                href={prev_page_url || ""}
                 disabled={!prev_page_url}
                 as="button"
                 className={cn(
@@ -198,7 +187,7 @@ function Pagination<T>({
                 Previous
             </Link>
             <Link
-                href={getUrlWithFilter(next_page_url)}
+                href={next_page_url || ""}
                 disabled={!next_page_url}
                 as="button"
                 className={cn(
@@ -212,7 +201,7 @@ function Pagination<T>({
     );
 }
 
-const DataTableFilter = ({ filterName, table }: any) => {
+const DataTableFilter = ({ filterName }: any) => {
     const { data, setData, get } = useForm({
         [filterName]: "",
         page: 1,

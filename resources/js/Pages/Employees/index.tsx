@@ -9,9 +9,10 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Card, CardContent } from "@/components/ui/card";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { EmployeesPageProps, PageProps } from "@/types";
+import { PageProps } from "@/types";
 import { Head, Link } from "@inertiajs/react";
-import { EmployeesTable } from "./partials/EmployeesTable";
+import { EmployeesTable } from "./partials/employees-table";
+import { EmployeesPageProps } from "@/types/employees";
 
 export default function Employees({
     pagination,
@@ -24,7 +25,7 @@ export default function Employees({
                     <BreadcrumbList>
                         <BreadcrumbItem>
                             <BreadcrumbLink asChild>
-                                <Link href="/">Home</Link>
+                                <Link href={route("dashboard")}>Home</Link>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />

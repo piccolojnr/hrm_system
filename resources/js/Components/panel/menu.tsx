@@ -12,7 +12,7 @@ import { Ellipsis, LogOut } from "lucide-react";
 import { Button } from "../ui/button";
 import { Link, usePage } from "@inertiajs/react";
 import { CollapseMenuButton } from "./collapse-menu-button";
-import { PageProps, User } from "@/types";
+import { PageProps } from "@/types";
 
 interface MenuProps {
     isOpen: boolean | undefined;

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -25,16 +26,21 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile/{id}', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
-    Route::get('/employees', [EmployeeController::class, 'index'])->name('employees');
+    Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
     Route::get('/employees/{id}/show', [EmployeeController::class, 'show'])->name('employees.show');
 
 
-    Route::get('/employees/new', [EmployeeController::class, 'create'])->name('employees.new');
-    Route::post('/employees/new', [EmployeeController::class, 'store'])->name('employees.create');
+    Route::get('/employees/create', [EmployeeController::class, 'create'])->name('employees.create');
+    Route::post('/employees/create', [EmployeeController::class, 'store'])->name('employees.create');
 
 
     Route::patch('/employee/{id}', [EmployeeController::class, 'update'])->name('employee.update');
     Route::post('/employee/update-photo/{id}', [EmployeeController::class, 'updatePhoto'])->name('employee.update.photo');
+
+    Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
+    Route::get('/departments/create', [DepartmentController::class, 'create'])->name('departments.create');
+    Route::post('/departments/create', [DepartmentController::class, 'store'])->name('departments.create');
+    Route::get('/departments/{id}/show', [DepartmentController::class, 'show'])->name('departments.show');
 
 });
 

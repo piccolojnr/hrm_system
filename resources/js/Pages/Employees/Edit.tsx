@@ -10,23 +10,23 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Head, Link } from "@inertiajs/react";
 import { Card, CardContent } from "@/components/ui/card";
-import { EditEmployeePageProps } from "@/types";
-import UpdateEmployeeInformation from "../Profile/Partials/UpdateEmployeeInformationForm";
-import UpdateEmployeePhoto from "../Profile/Partials/UpdateEmployeePhoto";
-import UpdatePasswordForm from "../Profile/Partials/UpdatePasswordForm";
-import DeleteUserForm from "../Profile/Partials/DeleteUserForm";
-import UpdateProfileInformation from "../Profile/Partials/UpdateProfileInformationForm";
+import { EditEmployeePageProps } from "@/types/employees";
+import UpdateEmployeeInformationForm from "../Profile/partials/update-employee-information-form";
+import UpdateEmployeePhoto from "../Profile/partials/update-employee-photo";
+import UpdatePasswordForm from "../Profile/partials/update-password-form";
+import DeleteUserForm from "../Profile/partials/delete-user-form";
+import UpdateProfileInformation from "../Profile/partials/update-profileInformation-form";
 
-export default function Edit({ employee }: EditEmployeePageProps) {
+export default function Edit({ user }: EditEmployeePageProps) {
     return (
-        <AuthenticatedLayout title={`Edit ${employee.user.name}`}>
-            <ContentLayout title={`Edit ${employee.user.name}`}>
+        <AuthenticatedLayout title={`Edit ${user.name}`}>
+            <ContentLayout title={`Edit ${user.name}`}>
                 <Head title="Employees" />
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
                             <BreadcrumbLink asChild>
-                                <Link href="/">Home</Link>
+                                <Link href={route("dashboard")}>Home</Link>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
@@ -37,36 +37,40 @@ export default function Edit({ employee }: EditEmployeePageProps) {
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbPage>
-                                Edit {employee.user.name}
-                            </BreadcrumbPage>
+                            <BreadcrumbPage>Edit {user.name}</BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
                 <Card className="rounded-lg border-none mt-6">
                     <CardContent className="p-6">
                         <div className="p-4 sm:p-8 shadow sm:rounded-lg">
-                            <UpdateProfileInformation className="max-w-xl" />
+                            <UpdateProfileInformation
+                                user={user}
+                                className="max-w-xl"
+                            />
                         </div>
                         <div className="p-4 sm:p-8 shadow sm:rounded-lg">
-                            <UpdateEmployeeInformation
-                                status={status}
+                            <UpdateEmployeeInformationForm
+                                user={user}
                                 className="max-w-xl"
                             />
                         </div>
                         <div className="p-4 sm:p-8 shadow sm:rounded-lg">
                             <UpdateEmployeePhoto
-                                status={status}
+                                user={user}
                                 className="max-w-xl"
                             />
                         </div>
 
                         <div className="p-4 sm:p-8 shadow sm:rounded-lg">
-                            <UpdatePasswordForm className="max-w-xl" />
+                            <UpdatePasswordForm
+                                user={user}
+                                className="max-w-xl"
+                            />
                         </div>
 
                         <div className="p-4 sm:p-8 shadow sm:rounded-lg">
-                            <DeleteUserForm className="max-w-xl" />
+                            <DeleteUserForm user={user} className="max-w-xl" />
                         </div>
                     </CardContent>
                 </Card>

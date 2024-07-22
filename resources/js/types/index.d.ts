@@ -1,4 +1,5 @@
-import { EmployeePaginatedResponse } from "./employees";
+import { Department } from "./departments";
+import { Employee } from "./employees";
 
 export interface Link {
     url: string | null;
@@ -34,26 +35,6 @@ export interface Role {
     updated_at: string;
 }
 
-export interface Department {
-    id: number;
-    name: string;
-    slug: string;
-    description: string;
-    created_at: string;
-    updated_at: string;
-}
-
-export interface Employee {
-    id: number,
-    address: string | null,
-    mobile: string | null,
-    birth_date: string | null,
-    hire_date: string | null,
-    photo: string | null,
-    department: Department,
-    created_at: string;
-    updated_at: string;
-}
 
 export interface User {
     id: number;
@@ -86,26 +67,3 @@ export type RegisterPageProps = PageProps<{
 }>;
 
 
-export type EditProfilePageProps = PageProps<{
-    mustVerifyEmail: boolean;
-    status?: string;
-    roles: Role[];
-    departments: Department[];
-}>;
-
-
-export type EmployeesPageProps = PageProps<{
-    pagination: EmployeePaginatedResponse;
-    filter: string | null;
-}>;
-
-export type CreateEmployeePageProps = PageProps<{
-    roles: Role[];
-    departments: Department[];
-}>;
-
-export type EditEmployeePageProps = PageProps<{
-    roles: Role[];
-    departments: Department[];
-    user: User;
-}>;

@@ -22,6 +22,9 @@ class EmployeeController extends Controller
             ->with('user', 'department')
             ->paginate(10);
 
+        // add filter to pagination links
+        $pagination->appends(['user_name' => $filter]);
+
         return Inertia::render("Employees/index", [
             "pagination" => $pagination,
             "filter" => $filter,
@@ -36,7 +39,7 @@ class EmployeeController extends Controller
             return $role->slug === 'admin';
         })->values();
         $departments = Department::all();
-        return Inertia::render("Employees/Show", [
+        return Inertia::render("Employees/show", [
             'user' => $user->with('employee', "roles")->with("employee.department")->first(),
             'roles' => $roles,
             'departments' => $departments
@@ -52,7 +55,7 @@ class EmployeeController extends Controller
         })->values();
         $departments = Department::all();
 
-        return Inertia::render("Employees/New", [
+        return Inertia::render("Employees/create", [
             'roles' => $roles,
             'departments' => $departments
         ]);

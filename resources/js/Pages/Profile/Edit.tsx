@@ -1,9 +1,9 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import DeleteUserForm from "./Partials/DeleteUserForm";
-import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
-import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
+import DeleteUserForm from "./partials/delete-user-form";
+import UpdatePasswordForm from "./partials/update-password-form";
+import UpdateProfileInformationForm from "./partials/update-profileInformation-form";
 import { Head, Link } from "@inertiajs/react";
-import { EditProfilePageProps, PageProps } from "@/types";
+import { PageProps } from "@/types";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -14,8 +14,9 @@ import {
 } from "@/components/ui/breadcrumb";
 import { ContentLayout } from "@/components/panel/content-layout";
 import { Card, CardContent } from "@/components/ui/card";
-import UpdateEmployeeInformation from "./Partials/UpdateEmployeeInformationForm";
-import UpdateEmployeePhoto from "./Partials/UpdateEmployeePhoto";
+import UpdateEmployeeInformationForm from "./partials/update-employee-information-form";
+import UpdateEmployeePhoto from "./partials/update-employee-photo";
+import { EditProfilePageProps } from "@/types/employees";
 
 export default function Edit({
     mustVerifyEmail,
@@ -30,7 +31,7 @@ export default function Edit({
                     <BreadcrumbList>
                         <BreadcrumbItem>
                             <BreadcrumbLink asChild>
-                                <Link href="/">Home</Link>
+                                <Link href={route("dashboard")}>Home</Link>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
@@ -50,7 +51,7 @@ export default function Edit({
                             />
                         </div>
                         <div className="p-4 sm:p-8 shadow sm:rounded-lg">
-                            <UpdateEmployeeInformation
+                            <UpdateEmployeeInformationForm
                                 user={user}
                                 className="max-w-xl"
                             />

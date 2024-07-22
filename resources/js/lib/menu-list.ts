@@ -38,7 +38,7 @@ export function getMenuList(pathname: string, userRole: string): Group[] {
             groupLabel: "",
             menus: [
                 {
-                    href: "/dashboard",
+                    href: route("dashboard"),
                     label: "Dashboard",
                     active: pathname.includes("/dashboard"),
                     icon: LayoutGrid,
@@ -51,23 +51,36 @@ export function getMenuList(pathname: string, userRole: string): Group[] {
             groupLabel: "HR Management",
             menus: [
                 {
-                    href: "/departments",
+                    href: route("departments.index"),
                     label: "Departments",
-                    active: pathname.includes("/departments"),
+                    active: pathname.includes(route("departments.index"),),
                     icon: Briefcase,
-                    submenus: [],
+                    submenus: [
+                        {
+                            href: route("departments.index"),
+                            label: "All Departments",
+                            active: pathname === route("departments.index"),
+                            requiredRole: ["hr_manager"]
+                        },
+                        {
+                            href: route("departments.create"),
+                            label: "New Department",
+                            active: pathname === route("departments.create"),
+                            requiredRole: ["hr_manager"]
+                        }
+                    ],
                     requiredRole: ["hr_manager"]
                 },
                 {
-                    href: route("employees"),
+                    href: route("employees.index"),
                     label: "Employees",
-                    active: pathname.includes(route("employees")),
+                    active: pathname.includes(route("employees.index")),
                     icon: Users,
                     submenus: [
                         {
-                            href: route("employees"),
+                            href: route("employees.index"),
                             label: "All Employees",
-                            active: pathname === route("employees"),
+                            active: pathname === route("employees.index"),
                             requiredRole: ["hr_manager"]
                         },
                         {

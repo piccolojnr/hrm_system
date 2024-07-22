@@ -10,35 +10,37 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Head, Link } from "@inertiajs/react";
 import { Card, CardContent } from "@/components/ui/card";
-import CreateUserForm from "./partials/CreateUserForm";
-export default function New() {
+import CreateDepartmentForm from "./partials/create-department-form";
+export default function CreateDepartment() {
     return (
-        <AuthenticatedLayout title="New Employee">
-            <ContentLayout title="New Employee">
-                <Head title="Employees" />
+        <AuthenticatedLayout title="New Department">
+            <ContentLayout title="New Department">
+                <Head title="Departments" />
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
                             <BreadcrumbLink asChild>
-                                <Link href="/">Home</Link>
+                                <Link href={route("dashboard")}>Home</Link>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
                             <BreadcrumbLink asChild>
-                                <Link href="/employees">Employees</Link>
+                                <Link href={route("departments.index")}>
+                                    Departments
+                                </Link>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbPage>New Employee</BreadcrumbPage>
+                            <BreadcrumbPage>New Department</BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
                 <Card className="rounded-lg border-none mt-6">
                     <CardContent className="p-6">
                         <div className="p-4 sm:p-8 shadow sm:rounded-lg">
-                            <CreateUserForm className="max-w-xl" />
+                            <CreateDepartmentForm className="max-w-xl" />
                         </div>
                     </CardContent>
                 </Card>

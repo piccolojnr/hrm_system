@@ -24,7 +24,7 @@ class ProfileController extends Controller
         $roles = Role::all();
         $departments = Department::all();
 
-        return Inertia::render('Profile/Edit', [
+        return Inertia::render('profile/edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
             'roles' => $roles,
@@ -85,6 +85,6 @@ class ProfileController extends Controller
 
         $request->session()->flash('success', 'Account deleted successfully!');
         // redirect back 2 times to go back to the welcome page
-        return Redirect::route('employees');
+        return Redirect::route('employees.index');
     }
 }

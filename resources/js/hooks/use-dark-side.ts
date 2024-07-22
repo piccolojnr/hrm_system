@@ -16,7 +16,6 @@ export default function useDarkSide(): [Theme, (theme: Theme) => void] {
     }, [theme, colorMode]);
 
     const switchTheme = (theme: Theme) => {
-        console.log('switching theme to', theme);
         setTheme(theme);
     };
 

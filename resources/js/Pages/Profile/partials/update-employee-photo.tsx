@@ -4,7 +4,8 @@ import PrimaryButton from "@/components/PrimaryButton";
 import { useForm, usePage } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
 import { FormEventHandler, useState } from "react";
-import { EditProfilePageProps, User } from "@/types";
+import { User } from "@/types";
+import { EditProfilePageProps } from "@/types/employees";
 
 export default function UpdateEmployeePhoto({
     className = "",

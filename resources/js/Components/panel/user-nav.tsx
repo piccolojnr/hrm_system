@@ -42,7 +42,7 @@ export function UserNav() {
                                 <Avatar className="h-8 w-8">
                                     <AvatarImage
                                         src={
-                                            "photos/" + user.employee.photo ||
+                                            "/photos/" + user.employee.photo ||
                                             undefined
                                         }
                                         alt="Avatar"

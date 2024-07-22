@@ -1,9 +1,9 @@
-import { EditEmployeePageProps, PageProps } from "@/types";
+import { PageProps } from "@/types";
 
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import DeleteUserForm from "../Profile/Partials/DeleteUserForm";
-import UpdatePasswordForm from "../Profile/Partials/UpdatePasswordForm";
-import UpdateProfileInformationForm from "../Profile/Partials/UpdateProfileInformationForm";
+import DeleteUserForm from "../Profile/partials/delete-user-form";
+import UpdatePasswordForm from "../Profile/partials/update-password-form";
+import UpdateProfileInformationForm from "../Profile/partials/update-profileInformation-form";
 import { Head, Link } from "@inertiajs/react";
 import {
     Breadcrumb,
@@ -15,8 +15,9 @@ import {
 } from "@/components/ui/breadcrumb";
 import { ContentLayout } from "@/components/panel/content-layout";
 import { Card, CardContent } from "@/components/ui/card";
-import UpdateEmployeeInformation from "../Profile/Partials/UpdateEmployeeInformationForm";
-import UpdateEmployeePhoto from "../Profile/Partials/UpdateEmployeePhoto";
+import UpdateEmployeeInformationForm from "../Profile/partials/update-employee-information-form";
+import UpdateEmployeePhoto from "../Profile/partials/update-employee-photo";
+import { EditEmployeePageProps } from "@/types/employees";
 
 export default function Show({ user }: PageProps<EditEmployeePageProps>) {
     return (
@@ -27,13 +28,15 @@ export default function Show({ user }: PageProps<EditEmployeePageProps>) {
                     <BreadcrumbList>
                         <BreadcrumbItem>
                             <BreadcrumbLink asChild>
-                                <Link href="/">Home</Link>
+                                <Link href={route("dashboard")}>Home</Link>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
                             <BreadcrumbPage>
-                                <Link href={route("employees")}>Employees</Link>
+                                <Link href={route("employees.index")}>
+                                    Employees
+                                </Link>
                             </BreadcrumbPage>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
@@ -51,7 +54,7 @@ export default function Show({ user }: PageProps<EditEmployeePageProps>) {
                             />
                         </div>
                         <div className="p-4 sm:p-8 shadow sm:rounded-lg">
-                            <UpdateEmployeeInformation
+                            <UpdateEmployeeInformationForm
                                 user={user}
                                 className="max-w-xl"
                             />

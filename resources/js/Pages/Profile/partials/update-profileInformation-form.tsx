@@ -5,8 +5,9 @@ import TextInput from "@/components/TextInput";
 import { Link, useForm, usePage } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
 import { FormEventHandler } from "react";
-import { EditProfilePageProps, User } from "@/types";
+import { User } from "@/types";
 import CustomMultiSelect from "@/components/extension/multi-select";
+import { EditProfilePageProps } from "@/types/employees";
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,

@@ -4,8 +4,8 @@ import PrimaryButton from "@/components/PrimaryButton";
 import TextInput from "@/components/TextInput";
 import { useForm, usePage } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
-import { FormEventHandler, useState } from "react";
-import { EditProfilePageProps, User } from "@/types";
+import { FormEventHandler } from "react";
+import { User } from "@/types";
 import {
     Select,
     SelectGroup,
@@ -15,7 +15,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-export default function UpdateEmployeeInformation({
+import { EditProfilePageProps } from "@/types/employees";
+export default function UpdateEmployeeInformationForm({
     className = "",
     user,
 }: {
