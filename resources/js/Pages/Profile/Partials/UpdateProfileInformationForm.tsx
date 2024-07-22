@@ -5,22 +5,21 @@ import TextInput from "@/components/TextInput";
 import { Link, useForm, usePage } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
 import { FormEventHandler } from "react";
-import { EditProfilePageProps } from "@/types";
+import { EditProfilePageProps, User } from "@/types";
 import CustomMultiSelect from "@/components/extension/multi-select";
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
     status,
     className = "",
+    user,
 }: {
-    mustVerifyEmail: boolean;
+    mustVerifyEmail?: boolean;
     status?: string;
     className?: string;
+    user: User;
 }) {
-    const {
-        auth: { user },
-        roles,
-    } = usePage<EditProfilePageProps>().props;
+    const { roles } = usePage<EditProfilePageProps>().props;
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm({
             name: user.name,
@@ -32,7 +31,7 @@ export default function UpdateProfileInformation({
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        patch(route("profile.update"));
+        patch(route("profile.update", user.id));
     };
 
     return (

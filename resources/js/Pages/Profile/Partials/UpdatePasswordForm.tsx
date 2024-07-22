@@ -3,16 +3,23 @@ import InputError from "@/components/InputError";
 import InputLabel from "@/components/InputLabel";
 import PrimaryButton from "@/components/PrimaryButton";
 import TextInput from "@/components/TextInput";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
+import { PageProps, User } from "@/types";
 
 export default function UpdatePasswordForm({
     className = "",
+    user,
 }: {
     className?: string;
+    user: User;
 }) {
+    const { auth } = usePage<PageProps>().props;
     const passwordInput = useRef<HTMLInputElement>(null);
     const currentPasswordInput = useRef<HTMLInputElement>(null);
+    const isAdministrator = auth.user.roles.some(
+        (role) => role.slug === "admin"
+    );
 
     const {
         data,
@@ -31,7 +38,7 @@ export default function UpdatePasswordForm({
     const updatePassword: FormEventHandler = (e) => {
         e.preventDefault();
 
-        put(route("password.update"), {
+        put(route("password.update", user.id), {
             preserveScroll: true,
             onSuccess: () => reset(),
             onError: (errors) => {
@@ -60,30 +67,32 @@ export default function UpdatePasswordForm({
             </header>
 
             <form onSubmit={updatePassword} className="mt-6 space-y-6">
-                <div>
-                    <InputLabel
-                        htmlFor="current_password"
-                        value="Current Password"
-                        className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                    />
+                {!isAdministrator && (
+                    <div>
+                        <InputLabel
+                            htmlFor="current_password"
+                            value="Current Password"
+                            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                        />
 
-                    <TextInput
-                        id="current_password"
-                        ref={currentPasswordInput}
-                        value={data.current_password}
-                        onChange={(e) =>
-                            setData("current_password", e.target.value)
-                        }
-                        type="password"
-                        className="mt-1 block w-full"
-                        autoComplete="current-password"
-                    />
+                        <TextInput
+                            id="current_password"
+                            ref={currentPasswordInput}
+                            value={data.current_password}
+                            onChange={(e) =>
+                                setData("current_password", e.target.value)
+                            }
+                            type="password"
+                            className="mt-1 block w-full"
+                            autoComplete="current-password"
+                        />
 
-                    <InputError
-                        message={errors.current_password}
-                        className="mt-2"
-                    />
-                </div>
+                        <InputError
+                            message={errors.current_password}
+                            className="mt-2"
+                        />
+                    </div>
+                )}
 
                 <div>
                     <InputLabel

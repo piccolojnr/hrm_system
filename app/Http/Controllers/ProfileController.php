@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Department;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -34,28 +35,31 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request, int $id): RedirectResponse
     {
         try {
+            $user = User::findOrFail($id);
+
             $data = $request->validated();
-            $request->user()->fill($data);
 
-            if ($request->user()->isDirty('email')) {
-                $request->user()->email_verified_at = null;
+            $user->fill($data);
+
+            if ($user->isDirty('email')) {
+                $user->email_verified_at = null;
             }
-
             if ($request->has('roles')) {
                 $roleIds = [];
                 foreach ($data['roles'] as $roleSlug) {
                     $role = Role::where('slug', $roleSlug)->firstOrFail();
                     $roleIds[] = $role->id;
                 }
-                $request->user()->roles()->sync($roleIds);
+                $user->roles()->sync($roleIds);
             }
 
-            $request->user()->save();
+            $user->save();
+
             $request->session()->flash('success', 'Profile updated successfully!');
-            return Redirect::route('profile.edit');
+            return Redirect::route('profile.edit', $user->id);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -64,21 +68,23 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request, int $id): RedirectResponse
     {
-        $request->validate([
-            'password' => ['required', 'current_password'],
-        ]);
+        $user = User::findOrFail($id);
 
-        $user = $request->user();
+        if (!$request->user()->isAdmin()) {
+            $request->validate([
+                'password' => 'required|string'
+            ]);
 
-        Auth::logout();
-
+            if (!\Hash::check($request->input('password'), $user->password)) {
+                return redirect()->back()->with('error', 'The password you entered is incorrect.');
+            }
+        }
         $user->delete();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        $request->session()->flash('success', 'Account deleted successfully!');
+        // redirect back 2 times to go back to the welcome page
+        return Redirect::route('employees');
     }
 }

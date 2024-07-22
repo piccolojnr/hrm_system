@@ -1,9 +1,10 @@
+import { EditEmployeePageProps, PageProps } from "@/types";
+
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import DeleteUserForm from "./Partials/DeleteUserForm";
-import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
-import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
+import DeleteUserForm from "../Profile/Partials/DeleteUserForm";
+import UpdatePasswordForm from "../Profile/Partials/UpdatePasswordForm";
+import UpdateProfileInformationForm from "../Profile/Partials/UpdateProfileInformationForm";
 import { Head, Link } from "@inertiajs/react";
-import { EditProfilePageProps, PageProps } from "@/types";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -14,18 +15,14 @@ import {
 } from "@/components/ui/breadcrumb";
 import { ContentLayout } from "@/components/panel/content-layout";
 import { Card, CardContent } from "@/components/ui/card";
-import UpdateEmployeeInformation from "./Partials/UpdateEmployeeInformationForm";
-import UpdateEmployeePhoto from "./Partials/UpdateEmployeePhoto";
+import UpdateEmployeeInformation from "../Profile/Partials/UpdateEmployeeInformationForm";
+import UpdateEmployeePhoto from "../Profile/Partials/UpdateEmployeePhoto";
 
-export default function Edit({
-    mustVerifyEmail,
-    status,
-    auth: { user },
-}: PageProps<EditProfilePageProps>) {
+export default function Show({ user }: PageProps<EditEmployeePageProps>) {
     return (
-        <AuthenticatedLayout title="Profile">
-            <ContentLayout title="Profile">
-                <Head title="Profile" />
+        <AuthenticatedLayout title={user.name}>
+            <ContentLayout title={user.name}>
+                <Head title={user.name} />
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
@@ -35,7 +32,13 @@ export default function Edit({
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbPage>Profile</BreadcrumbPage>
+                            <BreadcrumbPage>
+                                <Link href={route("employees")}>Employees</Link>
+                            </BreadcrumbPage>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem>
+                            <BreadcrumbPage>{user.name}</BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
@@ -43,8 +46,6 @@ export default function Edit({
                     <CardContent className="p-6">
                         <div className="p-4 sm:p-8 shadow sm:rounded-lg">
                             <UpdateProfileInformationForm
-                                mustVerifyEmail={mustVerifyEmail}
-                                status={status}
                                 user={user}
                                 className="max-w-xl"
                             />

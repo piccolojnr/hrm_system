@@ -40,7 +40,13 @@ export function UserNav() {
                                 className="relative h-8 w-8 rounded-full"
                             >
                                 <Avatar className="h-8 w-8">
-                                    <AvatarImage src="#" alt="Avatar" />
+                                    <AvatarImage
+                                        src={
+                                            "photos/" + user.employee.photo ||
+                                            undefined
+                                        }
+                                        alt="Avatar"
+                                    />
                                     <AvatarFallback className="bg-transparent">
                                         {initials(user.name)}
                                     </AvatarFallback>

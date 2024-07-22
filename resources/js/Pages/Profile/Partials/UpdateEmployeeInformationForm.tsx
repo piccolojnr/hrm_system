@@ -5,7 +5,7 @@ import TextInput from "@/components/TextInput";
 import { useForm, usePage } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
 import { FormEventHandler, useState } from "react";
-import { EditProfilePageProps } from "@/types";
+import { EditProfilePageProps, User } from "@/types";
 import {
     Select,
     SelectGroup,
@@ -16,35 +16,30 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 export default function UpdateEmployeeInformation({
-    status,
     className = "",
+    user,
 }: {
-    status?: string;
     className?: string;
+    user: User;
 }) {
-    const {
-        auth: {
-            user: { employee },
-        },
-        departments,
-    } = usePage<EditProfilePageProps>().props;
+    const { departments } = usePage<EditProfilePageProps>().props;
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm({
-            address: employee.address || "",
-            birth_date: employee.birth_date
-                ? new Date(employee.birth_date).toISOString().split("T")[0]
+            address: user.employee.address || "",
+            birth_date: user.employee.birth_date
+                ? new Date(user.employee.birth_date).toISOString().split("T")[0]
                 : "",
-            hire_date: employee.hire_date
-                ? new Date(employee.hire_date).toISOString().split("T")[0]
+            hire_date: user.employee.hire_date
+                ? new Date(user.employee.hire_date).toISOString().split("T")[0]
                 : "",
-            department: employee.department.slug || "",
-            mobile: employee.mobile || "",
+            department: user.employee.department.slug || "",
+            mobile: user.employee.mobile || "",
         });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        patch(route("employee.update"));
+        patch(route("employee.update", user.id));
     };
 
     return (

@@ -98,3 +98,14 @@ export type EmployeesPageProps = PageProps<{
     pagination: EmployeePaginatedResponse;
     filter: string | null;
 }>;
+
+export type CreateEmployeePageProps = PageProps<{
+    roles: Role[];
+    departments: Department[];
+}>;
+
+export type EditEmployeePageProps = PageProps<{
+    roles: Role[];
+    departments: Department[];
+    user: User;
+}>;

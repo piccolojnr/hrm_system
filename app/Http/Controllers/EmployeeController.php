@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EmployeeUpdateRequest;
 use App\Models\Department;
 use App\Models\Employee;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -22,19 +24,45 @@ class EmployeeController extends Controller
 
         return Inertia::render("Employees/index", [
             "pagination" => $pagination,
-            "filter" => $filter,  // Pass filter value to the component
+            "filter" => $filter,
+        ]);
+    }
+
+    public function show(int $id)
+    {
+        $user = User::where('id', $id);
+
+        $roles = Role::all()->reject(function ($role) {
+            return $role->slug === 'admin';
+        })->values();
+        $departments = Department::all();
+        return Inertia::render("Employees/Show", [
+            'user' => $user->with('employee', "roles")->with("employee.department")->first(),
+            'roles' => $roles,
+            'departments' => $departments
         ]);
     }
 
 
+
     public function create()
     {
-        return Inertia::render("Employees/New");
+        $roles = Role::all()->reject(function ($role) {
+            return $role->slug === 'admin';
+        })->values();
+        $departments = Department::all();
+
+        return Inertia::render("Employees/New", [
+            'roles' => $roles,
+            'departments' => $departments
+        ]);
     }
 
-    public function update(EmployeeUpdateRequest $request)
+    public function update(EmployeeUpdateRequest $request, int $id)
     {
         try {
+            $user = User::findOrFail($id);
+
             $data = $request->validated();
 
             if ($request->has('department')) {
@@ -42,7 +70,7 @@ class EmployeeController extends Controller
                 $data['department_id'] = $department->id;
             }
 
-            $request->user()->employee->update($data);
+            $user->employee->update($data);
             $request->session()->flash('success', 'Employee updated.');
             return back()->with('success', 'Employee updated.');
         } catch (\Exception $e) {
@@ -50,8 +78,10 @@ class EmployeeController extends Controller
         }
     }
 
-    public function updatePhoto(Request $request)
+    public function updatePhoto(Request $request, int $id)
     {
+        $user = User::findOrFail($id);
+
         $request->validate([
             'photo' => ['required', 'image', 'max:1024'],
         ]);
@@ -65,7 +95,7 @@ class EmployeeController extends Controller
                 $filename = time() . '.' . $photo->getClientOriginalExtension();
 
                 $photo->move($filepath, $filename);
-                $request->user()->employee->update(['photo' => $filename]);
+                $user->employee->update(['photo' => $filename]);
                 $request->session()->flash('success', 'Photo updated.');
 
             } else {

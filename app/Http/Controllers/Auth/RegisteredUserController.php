@@ -65,7 +65,7 @@ class RegisteredUserController extends Controller
                 'name' => $request->name,
                 'username' => $request->username,
                 'email' => $request->email,
-                'password' => Hash::make($request->password),
+                'password' => $request->password,
             ]);
 
             foreach ($roles as $role) {
@@ -80,15 +80,12 @@ class RegisteredUserController extends Controller
                 'department_id' => $department->id,
             ]);
 
-            event(new Registered($user));
 
-            Auth::login($user);
-
-            $request->session()->flash('success', 'Registration successful and you are now logged in.');
-            return redirect(route('profile.edit', absolute: false));
+            $request->session()->flash('success', 'Registration successful');
+            return redirect(route('employees.show', $user->id));
         } catch (\Exception $e) {
             $request->session()->flash('error', $e->getMessage());
-            return redirect(route('register', ));
+            return back();
         }
     }
 }

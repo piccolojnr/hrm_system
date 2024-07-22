@@ -5,15 +5,22 @@ import InputLabel from "@/components/InputLabel";
 import Modal from "@/components/Modal";
 import SecondaryButton from "@/components/SecondaryButton";
 import TextInput from "@/components/TextInput";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
+import { PageProps, User } from "@/types";
 
 export default function DeleteUserForm({
     className = "",
+    user,
 }: {
     className?: string;
+    user: User;
 }) {
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
     const passwordInput = useRef<HTMLInputElement>(null);
+    const { auth } = usePage<PageProps>().props;
+    const isAdministrator = auth.user.roles.some(
+        (role) => role.slug === "admin"
+    );
 
     const {
         data,
@@ -33,7 +40,7 @@ export default function DeleteUserForm({
     const deleteUser: FormEventHandler = (e) => {
         e.preventDefault();
 
-        destroy(route("profile.destroy"), {
+        destroy(route("profile.destroy", user.id), {
             preserveScroll: true,
             onSuccess: () => closeModal(),
             onError: () => passwordInput.current?.focus(),
@@ -53,10 +60,9 @@ export default function DeleteUserForm({
                 <h2 className="text-lg font-medium ">Delete Account</h2>
 
                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Once your account is deleted, all of its resources and data
-                    will be permanently deleted. Before deleting your account,
-                    please download any data or information that you wish to
-                    retain.
+                    {user.id === auth.user.id
+                        ? "You are about to delete your account."
+                        : "You are about to delete another user's account."}
                 </p>
             </header>
 
@@ -67,42 +73,45 @@ export default function DeleteUserForm({
             <Modal show={confirmingUserDeletion} onClose={closeModal}>
                 <form onSubmit={deleteUser} className="p-6">
                     <h2 className="text-lg font-medium ">
-                        Are you sure you want to delete your account?
+                        {user.id === auth.user.id
+                            ? "Delete Your Account"
+                            : "Delete User Account"}
                     </h2>
 
                     <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                        Once your account is deleted, all of its resources and
-                        data will be permanently deleted. Please enter your
-                        password to confirm you would like to permanently delete
-                        your account.
+                        Once this is deleted, all of its resources and data will
+                        be permanently deleted.
+                        {!isAdministrator &&
+                            " Please enter your password to confirm you would like to permanently delete your account."}
                     </p>
+                    {!isAdministrator && (
+                        <div className="mt-6">
+                            <InputLabel
+                                htmlFor="password"
+                                value="Password"
+                                className="sr-only "
+                            />
 
-                    <div className="mt-6">
-                        <InputLabel
-                            htmlFor="password"
-                            value="Password"
-                            className="sr-only "
-                        />
+                            <TextInput
+                                id="password"
+                                type="password"
+                                name="password"
+                                ref={passwordInput}
+                                value={data.password}
+                                onChange={(e) =>
+                                    setData("password", e.target.value)
+                                }
+                                className="mt-1 block w-3/4"
+                                isFocused
+                                placeholder="Password"
+                            />
 
-                        <TextInput
-                            id="password"
-                            type="password"
-                            name="password"
-                            ref={passwordInput}
-                            value={data.password}
-                            onChange={(e) =>
-                                setData("password", e.target.value)
-                            }
-                            className="mt-1 block w-3/4"
-                            isFocused
-                            placeholder="Password"
-                        />
-
-                        <InputError
-                            message={errors.password}
-                            className="mt-2"
-                        />
-                    </div>
+                            <InputError
+                                message={errors.password}
+                                className="mt-2"
+                            />
+                        </div>
+                    )}
 
                     <div className="mt-6 flex justify-end">
                         <SecondaryButton onClick={closeModal}>

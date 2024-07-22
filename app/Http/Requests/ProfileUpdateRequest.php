@@ -23,10 +23,12 @@ class ProfileUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $userId = $this->route('id'); // Get the user ID from the route parameter
+
         return [
             'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'alpha_dash', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
+            'username' => ['required', 'string', 'alpha_dash', 'max:255', Rule::unique(User::class)->ignore($userId)],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($userId)],
             'roles' => ['required', 'array', 'min:1'],
             'roles.*' => ['required', 'string', 'max:255', 'exists:roles,slug'],
         ];

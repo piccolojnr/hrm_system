@@ -4,20 +4,16 @@ import PrimaryButton from "@/components/PrimaryButton";
 import { useForm, usePage } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
 import { FormEventHandler, useState } from "react";
-import { EditProfilePageProps } from "@/types";
+import { EditProfilePageProps, User } from "@/types";
 
 export default function UpdateEmployeePhoto({
-    status,
     className = "",
+    user,
 }: {
-    status?: string;
     className?: string;
+    user: User;
 }) {
-    const {
-        auth: {
-            user: { employee },
-        },
-    } = usePage<EditProfilePageProps>().props;
+    const {} = usePage<EditProfilePageProps>().props;
 
     const { data, setData, post, errors, processing, recentlySuccessful } =
         useForm({
@@ -25,7 +21,7 @@ export default function UpdateEmployeePhoto({
         });
 
     const [photoPreview, setPhotoPreview] = useState(
-        employee.photo ? `/photos/${employee.photo}` : ""
+        user.employee.photo ? `/photos/${user.employee.photo}` : ""
     );
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +40,7 @@ export default function UpdateEmployeePhoto({
         e.preventDefault();
         const formData = new FormData();
         formData.append("photo", data.photo as any);
-        post(route("employee.update.photo"), formData as any);
+        post(route("employee.update.photo", user.id), formData as any);
     };
 
     return (

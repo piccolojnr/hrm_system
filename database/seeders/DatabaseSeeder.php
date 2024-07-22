@@ -61,7 +61,7 @@ class DatabaseSeeder extends Seeder
                 'mobile' => '555-555-5555',
                 'birth_date' => '1990-01-01',
                 'hire_date' => '2024-07-19',
-                'photo' => 'employee1.jpg',
+                'photo' => null,
                 'department' => 'human_resources',
             ],
             [
@@ -73,7 +73,7 @@ class DatabaseSeeder extends Seeder
                 'mobile' => '555-555-5555',
                 'birth_date' => '1990-01-01',
                 'hire_date' => '2024-07-19',
-                'photo' => 'employee2.jpg',
+                'photo' => null,
                 'department' => 'finance',
 
             ],
@@ -86,7 +86,7 @@ class DatabaseSeeder extends Seeder
                 'mobile' => '555-555-5555',
                 'birth_date' => '1990-01-01',
                 'hire_date' => '2024-07-19',
-                'photo' => 'employee3.jpg',
+                'photo' => null,
                 'department' => 'it',
             ],
             [
@@ -98,7 +98,7 @@ class DatabaseSeeder extends Seeder
                 'mobile' => '555-555-5555',
                 'birth_date' => '1990-01-01',
                 'hire_date' => '2024-07-19',
-                'photo' => 'employee1.jpg',
+                'photo' => null,
                 'department' => 'human_resources',
             ],
             [
@@ -110,7 +110,7 @@ class DatabaseSeeder extends Seeder
                 'mobile' => '555-555-5555',
                 'birth_date' => '1990-01-01',
                 'hire_date' => '2024-07-19',
-                'photo' => 'employee2.jpg',
+                'photo' => null,
                 'department' => 'finance',
             ],
         ];
@@ -119,7 +119,7 @@ class DatabaseSeeder extends Seeder
                 'name' => $userData['name'],
                 'username' => $userData['username'],
                 'email' => $userData['email'],
-                'password' => bcrypt('hummer64'), // Common password for all
+                'password' => 'hummer64',
             ]);
 
             UserRole::factory()->create([
@@ -133,8 +133,8 @@ class DatabaseSeeder extends Seeder
                 'mobile' => $userData['mobile'],
                 'birth_date' => $userData['birth_date'],
                 'hire_date' => $userData['hire_date'],
-                'photo' => $userData['photo'],
-                'department_id' => $departmentInstances[$userData['department']]->id,
+                'photo' => null,
+                null,
             ]);
         }
 
