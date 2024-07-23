@@ -1,4 +1,56 @@
-Sure, here's the information organized in a table format for clarity:
+# Employee Management System
+
+### Description:
+
+The Employee Management System is a web application that allows organizations to manage employee information, training sessions, vacation requests, and salary details. The system is designed to provide a centralized platform for HR managers, department managers, and employees to access and update relevant information. The application is built using larael and react.
+
+### Installation:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/piccolo/hrm_system.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+    cd hrm_system
+    ```
+3. Install the dependencies:
+    ```bash
+    composer install
+    npm install
+    ```
+4. Create a new database and update the `.env` file with the database details:
+    ```bash
+    DB_CONNECTION=mysql
+    DB_HOST=
+    DB_PORT=
+    DB_DATABASE=
+    DB_USERNAME=
+    DB_PASSWORD=
+    ```
+5. Run the migrations and seed the database:
+    ```bash
+    php artisan migrate --seed
+    ```
+6. Generate the application key:
+    ```bash
+    php artisan key:generate
+    ```
+7. Start the development server:
+    ```bash
+    php artisan serve
+    ```
+8. Open the application in your browser:
+    ```
+    http://localhost:8000
+    ```
+9. Login with the following credentials:
+    ```
+    Username:
+    Password:
+    ```
+10. You can now access the Employee Management System.
+
 
 ### Roles and Permissions:
 
