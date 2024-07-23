@@ -38,6 +38,7 @@ The Employee Management System is a web application that allows organizations to
     ```
 7. Start the development server:
     ```bash
+    npm run dev
     php artisan serve
     ```
 8. Open the application in your browser:
