@@ -15,7 +15,6 @@ export type DepartmentPaginatedResponse = PaginatedResponse<Department>;
 
 export type DepartmentsPageProps = PageProps<{
     pagination: DepartmentPaginatedResponse;
-    filter: string | null;
 }>;
 
 

@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Attendance;
+use App\Models\Evaluation;
+use App\Models\Trainings;
 use App\Models\User;
 use App\Models\Department;
 use App\Models\Employee;
@@ -144,5 +147,14 @@ class DatabaseSeeder extends Seeder
             $user->employee->department->head_id = $user->id;
             $user->employee->department->save();
         }
+
+        $userInstances = User::all();
+        for ($i = 0; $i < 25; $i++) {
+            Attendance::factory()->create();
+            Trainings::factory()->create();
+            Evaluation::factory()->create();
+        }
+
+
     }
 }

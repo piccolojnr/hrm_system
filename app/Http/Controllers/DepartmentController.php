@@ -14,10 +14,9 @@ class DepartmentController extends Controller
 
         $pagination = Department::where('name', 'like', "%{$filter}%")
             ->with('head')
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
-        // add filter to pagination links
-        $pagination->appends(['name' => $filter]);
 
         return inertia('Departments/index', [
             'pagination' => $pagination,

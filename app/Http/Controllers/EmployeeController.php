@@ -16,14 +16,14 @@ class EmployeeController extends Controller
     {
         $filter = $request->query('user_name', '');
 
-        $pagination = Employee::whereHas('user', function ($query) use ($filter) {
+        $pagination = Employee::whereHas('user', function ($query) use ($filter) { // phpcs:ignore
             $query->where('name', 'like', "%{$filter}%");
         })
             ->with('user', 'department')
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
-        // add filter to pagination links
-        $pagination->appends(['user_name' => $filter]);
+
 
         return Inertia::render("Employees/index", [
             "pagination" => $pagination,

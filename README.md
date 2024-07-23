@@ -1,66 +1,37 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Sure, here's the information organized in a table format for clarity:
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### Roles and Permissions:
 
-## About Laravel
+| **Role**           | **Permissions**                                                                                                                                                     |
+|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Admin**          | - Access all information and functionalities.<br>- Add, edit, and delete employee records, departments, salaries, training sessions, and vacations.<br>- View, accept, or deny vacations.<br>- Manage evaluations and training enrollments.<br>- Update user roles and authentication.<br>- Generate reports and perform searches across the database. |
+| **HR Manager**     | - Access most of the information except user role updates.<br>- Add, edit, and delete employee records, departments, salaries, training sessions, and vacations.<br>- View, accept, or deny vacations.<br>- Manage evaluations and training enrollments.<br>- Generate reports and perform searches across the database. |
+| **Department Manager** | - Access employee information within their department.<br>- Add and manage training sessions and vacations for employees in their department.<br>- Generate reports and perform searches for employees in their department. |
+| **Employee**       | - Access and edit their personal information.<br>- Add vacation requests.<br>- View their training records, attendance, and salary details. |
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Features:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+| **Feature**                    | **Description**                                                                                                                                                                                                                                                                                                                                                                             |
+|--------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Authentication and Authorization** | - **Login/Logout**: Users log in with their username and password.<br>- **User Role Check**: Interface changes based on user role after login.<br>- **Update Authentication**: Admin can update user roles. |
+| **Employee Management**         | - **Add/Edit Employee**: Admin and HR can add and edit employee details.<br>- **View Employee List**: Admin and HR can view all employees and their roles.<br>- **View/Edit Employee Data**: Admin, HR, and Department Managers can view/edit employee information based on their permissions. |
+| **Departments**                 | - **Add Department**: Admin and Department Managers can add new departments.<br>- **View/Edit Department List**: Admin and Department Managers can view and edit department details. |
+| **Training**                    | - **Add Training**: Admin and HR can add new training sessions.<br>- **View Training List**: Admin and HR can view all training records.<br>- **Enroll in Training**: Admin and HR can assign employees to training sessions. |
+| **Vacations**                   | - **Add Vacation**: All users can add vacation requests.<br>- **Manage Vacations**: Admin and HR can view, accept, or deny vacation requests.<br>- **View Vacation Lists**: Separate lists for accepted, denied, and pending vacations. |
+| **Attendance**                  | - **View Attendance**: Admin and HR can view attendance records, excluding vacation days. |
+| **Salary**                      | - **Add Salary**: Admin and HR can add monthly salary details.<br>- **View Salary List**: Admin and HR can view the monthly salary for employees. |
+| **Evaluations**                 | - **Manage Evaluations**: Admin and HR can add, edit, and view evaluation data for employees. |
+| **Reports and Search**          | - **Generate Reports**: Admin, HR, and Department Managers can generate reports based on search results.<br>- **Search**: Admin, HR, and Department Managers can search the database for specific employee information. |
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Database Design:
 
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| **Table**     | **Description**                                               |
+|---------------|---------------------------------------------------------------|
+| **User**      | Stores login details.                                         |
+| **Employee**  | Stores employee profiles.                                     |
+| **Department**| Stores department details.                                    |
+| **Training**  | Stores training session details.                              |
+| **Vacation**  | Stores vacation requests.                                     |
+| **Attendance**| Stores attendance records.                                    |
+| **Salary**    | Stores salary details.                                        |
+| **Evaluation**| Stores employee evaluations.                                  |

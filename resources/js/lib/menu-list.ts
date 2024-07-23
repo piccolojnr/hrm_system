@@ -6,7 +6,10 @@ import {
     Settings,
     Calendar,
     FileText,
-    LucideIcon
+    LucideIcon,
+    SquareLibrary,
+    CircleDollarSign,
+    TreePalm
 } from "lucide-react";
 
 
@@ -93,21 +96,21 @@ export function getMenuList(pathname: string, userRole: string): Group[] {
                     requiredRole: ["hr_manager"]
                 },
                 {
-                    href: "/trainings",
+                    href: route("trainings.index"),
                     label: "Trainings",
-                    active: pathname.includes("/trainings"),
-                    icon: FileText,
+                    active: pathname.includes(route("trainings.index")),
+                    icon: SquareLibrary,
                     submenus: [
                         {
-                            href: "/trainings",
+                            href: route("trainings.index"),
                             label: "All Trainings",
-                            active: pathname === "/trainings",
+                            active: pathname === route("trainings.index"),
                             requiredRole: ["hr_manager"]
                         },
                         {
-                            href: "/trainings/new",
+                            href: route("trainings.create"),
                             label: "New Training",
-                            active: pathname === "/trainings/new",
+                            active: pathname === route("trainings.create"),
                             requiredRole: ["hr_manager"]
                         }
                     ],
@@ -117,7 +120,7 @@ export function getMenuList(pathname: string, userRole: string): Group[] {
                     href: "/salaries",
                     label: "Salaries",
                     active: pathname.includes("/salaries"),
-                    icon: Calendar,
+                    icon: CircleDollarSign,
                     submenus: [],
                     requiredRole: ["admin"]
                 },
@@ -125,24 +128,50 @@ export function getMenuList(pathname: string, userRole: string): Group[] {
                     href: "/vacations",
                     label: "Vacations",
                     active: pathname.includes("/vacations"),
-                    icon: Calendar,
+                    icon: TreePalm,
                     submenus: [],
                     requiredRole: all
                 },
                 {
-                    href: "/attendance",
+                    href: route("attendances.index"),
                     label: "Attendance",
-                    active: pathname.includes("/attendance"),
+                    active: pathname.includes(route("attendances.index"),),
                     icon: Calendar,
-                    submenus: [],
+                    submenus: [
+                        {
+                            href: route("attendances.index"),
+                            label: "All Attendance",
+                            active: pathname === route("attendances.index"),
+                            requiredRole: all
+                        },
+                        {
+                            href: route("attendances.create"),
+                            label: "New Attendance",
+                            active: pathname === route("attendances.create"),
+                            requiredRole: all
+                        }
+                    ],
                     requiredRole: all
                 },
                 {
-                    href: "/evaluations",
+                    href: route("evaluations.index"),
                     label: "Evaluations",
-                    active: pathname.includes("/evaluations"),
+                    active: pathname.includes(route("evaluations.index")),
                     icon: FileText,
-                    submenus: [],
+                    submenus: [
+                        {
+                            href: route("evaluations.index"),
+                            label: "All Evaluations",
+                            active: pathname === route("evaluations.index"),
+                            requiredRole: all
+                        },
+                        {
+                            href: route("evaluations.create"),
+                            label: "New Evaluation",
+                            active: pathname === route("evaluations.create"),
+                            requiredRole: all
+                        }
+                    ],
                     requiredRole: ["department_manager", "admin"]
                 }
             ]

@@ -10,27 +10,32 @@ import { Button } from "@/components/ui/button";
 import { Ellipsis } from "lucide-react";
 import { DataTable } from "../../../components/DataTable";
 import { Link } from "@inertiajs/react";
-import { Department, DepartmentPaginatedResponse } from "@/types/departments";
+import { Training, TrainingPaginatedResponse } from "@/types/trainings";
 import moment from "moment";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 
-export function DepartmentTable({
+export function TrainingTable({
     pagination,
 }: {
-    pagination: DepartmentPaginatedResponse;
+    pagination: TrainingPaginatedResponse;
 }) {
-    const columns: ColumnDef<Department>[] = [
+    const columns: ColumnDef<Training>[] = [
         {
             accessorKey: "id",
             id: "id",
             header: "ID",
             cell: ({ row }) => <div>{row.getValue("id")}</div>,
         },
-        // slug
         {
-            accessorKey: "slug",
-            id: "slug",
-            header: "Slug",
-            cell: ({ row }) => <div>{row.getValue("slug")}</div>,
+            accessorKey: "type",
+            id: "type",
+            header: "Type",
+            cell: ({ row }) => <div>{row.getValue("type")}</div>,
         },
         {
             accessorKey: "name",
@@ -41,21 +46,39 @@ export function DepartmentTable({
             ),
         },
         {
+            accessorKey: "year",
+            id: "year",
+            header: "Year",
+            cell: ({ row }) => <div>{row.getValue("year")}</div>,
+        },
+        {
             accessorKey: "description",
             id: "description",
             header: "Description",
             cell: ({ row }) => (
-                <div className="capitalize">{row.getValue("description")}</div>
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger>
+                            <div
+                                className="capitalize truncate"
+                                style={{ maxWidth: "300px" }}
+                            >
+                                {row.getValue("description")}
+                            </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p
+                                className="capitalize"
+                                style={{ maxWidth: "300px" }}
+                            >
+                                {row.getValue("description")}
+                            </p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
             ),
         },
-        {
-            accessorFn: (row) => row.head.name,
-            id: "head.name",
-            header: "Department Head",
-            cell: ({ row }) => (
-                <div className="capitalize">{row.getValue("head.name")}</div>
-            ),
-        },
+
         {
             accessorKey: "created_at",
             id: "created_at",
@@ -81,7 +104,7 @@ export function DepartmentTable({
             id: "actions",
             enableHiding: false,
             cell: ({ row }) => {
-                const department = row.original;
+                const Training = row.original;
                 return (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -94,12 +117,22 @@ export function DepartmentTable({
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuItem>
                                 <Link
-                                    href={route(
-                                        "departments.show",
-                                        department.id
-                                    )}
+                                    href={route("trainings.show", Training.id)}
                                 >
                                     View
+                                </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <Link
+                                    href={route(
+                                        "trainings.destroy",
+                                        Training.id
+                                    )}
+                                    method="delete"
+                                    as="button"
+                                    className="text-red-600"
+                                >
+                                    Delete
                                 </Link>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -113,9 +146,8 @@ export function DepartmentTable({
         <DataTable
             columns={columns}
             pagination={pagination}
-            filterName="name"
+            filterName="user.name"
             visibleColumns={{
-                slug: false,
                 created_at: false,
                 updated_at: false,
             }}

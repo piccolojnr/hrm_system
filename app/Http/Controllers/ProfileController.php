@@ -24,7 +24,7 @@ class ProfileController extends Controller
         $roles = Role::all();
         $departments = Department::all();
 
-        return Inertia::render('profile/edit', [
+        return Inertia::render('Profile/edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
             'roles' => $roles,
@@ -33,7 +33,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update the user's profile information.
+     * Update the user's Profile information.
      */
     public function update(ProfileUpdateRequest $request, int $id): RedirectResponse
     {

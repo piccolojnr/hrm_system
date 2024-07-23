@@ -137,6 +137,16 @@ export function EmployeesTable({
                                     View
                                 </Link>
                             </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <Link
+                                    href={route(
+                                        "attendances.user",
+                                        employee.user.id
+                                    )}
+                                >
+                                    View Attendance
+                                </Link>
+                            </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 );

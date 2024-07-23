@@ -23,7 +23,7 @@ class EmployeeFactory extends Factory
             "birth_date" => fake()->date,
             "hire_date" => fake()->date,
             "photo" => fake()->word,
-            "department_id" => \App\Models\Department::factory(),
+            "department_id" => \App\Models\Department::all()->random()->id,
         ];
     }
 }

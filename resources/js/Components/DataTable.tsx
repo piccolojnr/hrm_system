@@ -30,21 +30,22 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { ChevronDownIcon } from "lucide-react";
-import { Link, useForm, usePage } from "@inertiajs/react";
+import { Link, useForm } from "@inertiajs/react";
 import { PaginatedResponse } from "@/types";
 import { cn } from "@/lib/utils";
-import { EmployeesPageProps } from "@/types/employees";
 
 export function DataTable<T>({
     columns,
     filterName,
     pagination,
     visibleColumns = {},
+    moreFilters = [],
 }: {
     columns: ColumnDef<T>[];
     pagination: PaginatedResponse<T>;
     filterName: string;
     visibleColumns?: VisibilityState;
+    moreFilters?: JSX.Element[];
 }) {
     const { data } = pagination;
     const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -76,7 +77,16 @@ export function DataTable<T>({
     return (
         <div className="w-full">
             <div className="flex items-center py-4">
-                <DataTableFilter filterName={filterName} table={table} />
+                <div
+                    className={cn(
+                        "flex items-center space-x-2",
+                        table.getRowModel().rows.length === 0 && "justify-end"
+                    )}
+                >
+                    <DataTableFilter filterName={filterName} />
+                    {moreFilters.map((Filter, index) => Filter)}
+                </div>
+
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">
@@ -201,16 +211,15 @@ function Pagination<T>({
     );
 }
 
-const DataTableFilter = ({ filterName }: any) => {
+const DataTableFilter = ({ filterName }: { filterName: string }) => {
+    filterName = filterName.replace(".", "_");
+
     const { data, setData, get } = useForm({
         [filterName]: "",
         page: 1,
     });
     const handleFilterSubmit = (event: any) => {
         event.preventDefault();
-        const params = new URLSearchParams(window.location.search);
-        params.set(filterName, data[filterName]);
-        params.set("page", "1");
         get("", { [filterName]: data[filterName] });
     };
 

@@ -47,5 +47,4 @@ export type EmployeePaginatedResponse = PaginatedResponse<IEmployee>;
 
 export type EmployeesPageProps = PageProps<{
     pagination: EmployeePaginatedResponse;
-    filter: string | null;
 }>;
