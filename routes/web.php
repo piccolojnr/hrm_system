@@ -5,6 +5,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\TrainingsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -70,6 +71,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/evaluations/{id}', [EvaluationController::class, 'show'])->where('id', '[0-9]+')->name('evaluations.show');
     Route::patch('/evaluations/{id}', [EvaluationController::class, 'update'])->where('id', '[0-9]+')->name('evaluations.update');
     Route::delete('/evaluations/{id}', [EvaluationController::class, 'destroy'])->where('id', '[0-9]+')->name('evaluations.destroy');
+
+    // salaries
+    Route::get('/salaries', [SalaryController::class, 'index'])->name('salaries.index');
+    Route::get('/salaries/create', [SalaryController::class, 'create'])->name('salaries.create');
+    Route::get('/salaries/{id}', [SalaryController::class, 'show'])->where('id', '[0-9]+')->name('salaries.show');
+    Route::post('/salaries/create', [SalaryController::class, 'store'])->name('salaries.create');
+    Route::patch('/salaries/{id}', [SalaryController::class, 'update'])->where('id', '[0-9]+')->name('salaries.update');
+    Route::delete('/salaries/{id}', [SalaryController::class, 'destroy'])->where('id', '[0-9]+')->name('salaries.destroy');
 });
 
 require __DIR__ . '/auth.php';

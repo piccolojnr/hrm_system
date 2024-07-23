@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Attendance;
 use App\Models\Evaluation;
+use App\Models\Salary;
 use App\Models\Trainings;
 use App\Models\User;
 use App\Models\Department;
@@ -126,6 +127,10 @@ class DatabaseSeeder extends Seeder
                 'password' => 'hummer64',
             ]);
 
+            Salary::factory()->create([
+                'user_id' => $user->id,
+            ]);
+
             UserRole::factory()->create([
                 'user_id' => $user->id,
                 'role_id' => $roleInstances[$userData['role']]->id,
@@ -141,6 +146,7 @@ class DatabaseSeeder extends Seeder
                 'department_id' => $departmentInstances[$userData['department']]->id,
             ]);
             $userInstances[] = $user;
+
         }
 
         foreach ($userInstances as $user) {

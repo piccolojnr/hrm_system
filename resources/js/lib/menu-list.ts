@@ -117,11 +117,24 @@ export function getMenuList(pathname: string, userRole: string): Group[] {
                     requiredRole: ["hr_manager"]
                 },
                 {
-                    href: "/salaries",
+                    href: route("salaries.index"),
                     label: "Salaries",
-                    active: pathname.includes("/salaries"),
+                    active: pathname.includes(route("salaries.index")),
                     icon: CircleDollarSign,
-                    submenus: [],
+                    submenus: [
+                        {
+                            href: route("salaries.index"),
+                            label: "All Salaries",
+                            active: pathname === route("salaries.index"),
+                            requiredRole: ["hr_manager"]
+                        },
+                        {
+                            href: route("salaries.create"),
+                            label: "New Salary",
+                            active: pathname === route("salaries.create"),
+                            requiredRole: ["hr_manager"]
+                        }
+                    ],
                     requiredRole: ["admin"]
                 },
                 {
