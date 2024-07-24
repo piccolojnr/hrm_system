@@ -112,6 +112,12 @@ export function getMenuList(pathname: string, userRole: string): Group[] {
                             label: "New Training",
                             active: pathname === route("trainings.create"),
                             requiredRole: ["hr_manager"]
+                        },
+                        {
+                            href: route("trainings.enroll"),
+                            label: "Enroll Employee",
+                            active: pathname === route("trainings.enroll"),
+                            requiredRole: ["hr_manager"]
                         }
                     ],
                     requiredRole: ["hr_manager"]
@@ -138,9 +144,9 @@ export function getMenuList(pathname: string, userRole: string): Group[] {
                     requiredRole: ["admin"]
                 },
                 {
-                    href: "/vacations",
+                    href: route("vacations.index"),
                     label: "Vacations",
-                    active: pathname.includes("/vacations"),
+                    active: pathname.includes(route("vacations.index")),
                     icon: TreePalm,
                     submenus: [],
                     requiredRole: all
@@ -197,7 +203,57 @@ export function getMenuList(pathname: string, userRole: string): Group[] {
                     label: "profile",
                     active: pathname.includes("/profile"),
                     icon: Settings,
-                    submenus: [],
+                    submenus: [
+                        {
+                            href: route("profile.edit"),
+                            label: "Edit Profile",
+                            active: pathname === route("profile.edit"),
+                            requiredRole: all
+                        },
+                        {
+                            href: route('vacations.create'),
+                            label: 'Request Vacation',
+                            active: pathname === route('vacations.create'),
+                            requiredRole: all
+                        },
+                        {
+                            href: route('profile.vacations'),
+                            label: 'Vacation History',
+                            active: pathname.includes(route('profile.vacations')),
+                            requiredRole: all
+                        },
+                        {
+                            href: route('profile.salaries'),
+                            label: 'Salary History',
+                            active: pathname.includes(route('profile.salaries')),
+                            requiredRole: all
+                        },
+                        {
+                            href: route('profile.salaries.slip'),
+                            label: 'Salary Slip',
+                            active: pathname.includes(route('profile.salaries.slip')),
+                            requiredRole: all
+                        },
+                        {
+                            href: route('profile.attendances'),
+                            label: 'Attendance',
+                            active: pathname.includes(route('profile.attendances')),
+                            requiredRole: all
+                        },
+                        {
+                            href: route('profile.evaluations'),
+                            label: 'Evaluation',
+                            active: pathname.includes(route('profile.evaluations')),
+                            requiredRole: all
+                        },
+                        {
+                            href: route('profile.trainings'),
+                            label: 'Training Enrolled',
+                            active: pathname.includes(route('profile.trainings')),
+                            requiredRole: all
+                        },
+
+                    ],
                     requiredRole: all
                 }
             ]

@@ -10,21 +10,17 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Head, Link } from "@inertiajs/react";
 import { Card, CardContent } from "@/components/ui/card";
-import { PageProps, User } from "@/types";
-import { AttendancesPageProps } from "@/types/attendances";
-import { AttendanceTable } from "./partial/attendance-table";
-export default function Attendances({
+import { PageProps } from "@/types";
+import { EvaluationsPageProps } from "@/types/evaluations";
+import { EvaluationTable } from "./partials/evaluation-table";
+export default function UserEvaluation({
+    auth: { user },
     pagination,
-    user,
-}: PageProps<
-    AttendancesPageProps & {
-        user?: User | null;
-    }
->) {
+}: PageProps<EvaluationsPageProps>) {
     return (
-        <AuthenticatedLayout title="Attendances">
-            <ContentLayout title="Attendances">
-                <Head title="Attendances" />
+        <AuthenticatedLayout title={user.name + " Evaluation"}>
+            <ContentLayout title={user.name + " Evaluation"}>
+                <Head title={user.name + " Evaluation"} />
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
@@ -33,30 +29,18 @@ export default function Attendances({
                             </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
+                        <BreadcrumbItem></BreadcrumbItem>
+                        <BreadcrumbSeparator />
                         <BreadcrumbItem>
                             <BreadcrumbPage>
-                                {user ? (
-                                    <Link href={route("attendances.index")}>
-                                        Attendances
-                                    </Link>
-                                ) : (
-                                    "Attendances"
-                                )}
+                                {user.name} Evaluation
                             </BreadcrumbPage>
                         </BreadcrumbItem>
-                        {user && (
-                            <>
-                                <BreadcrumbSeparator />
-                                <BreadcrumbItem>
-                                    <BreadcrumbPage>{user.name}</BreadcrumbPage>
-                                </BreadcrumbItem>
-                            </>
-                        )}
                     </BreadcrumbList>
                 </Breadcrumb>
                 <Card className="rounded-lg border-none mt-6">
                     <CardContent className="p-6">
-                        <AttendanceTable pagination={pagination} />
+                        <EvaluationTable pagination={pagination} />
                     </CardContent>
                 </Card>
             </ContentLayout>

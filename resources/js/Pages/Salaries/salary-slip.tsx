@@ -12,8 +12,7 @@ import { Head, Link } from "@inertiajs/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageProps } from "@/types";
 import { EditSalaryPageProps } from "@/types/salaries";
-import UpdateSalaryForm from "./partial/update-salary-form";
-export default function UserSalary({ salary }: PageProps<EditSalaryPageProps>) {
+export default function SalarySlip({ salary }: PageProps<EditSalaryPageProps>) {
     return (
         <AuthenticatedLayout title={salary.user.name + " Salary"}>
             <ContentLayout title={salary.user.name + " Salary"}>
@@ -28,7 +27,7 @@ export default function UserSalary({ salary }: PageProps<EditSalaryPageProps>) {
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
                             <BreadcrumbLink asChild>
-                                <Link href={route("salaries.index")}>
+                                <Link href={route("profile.salaries")}>
                                     Salaries
                                 </Link>
                             </BreadcrumbLink>
@@ -44,7 +43,27 @@ export default function UserSalary({ salary }: PageProps<EditSalaryPageProps>) {
                 <Card className="rounded-lg border-none mt-6">
                     <CardContent className="p-6">
                         <div className="p-4 sm:p-8 shadow sm:rounded-lg">
-                            <UpdateSalaryForm salary={salary} />
+                            <div className="flex justify-between">
+                                <div>
+                                    <h1 className="text-2xl font-semibold">
+                                        {salary.user.name} Salary Slip
+                                    </h1>
+                                    <p className="text-gray-500">
+                                        {salary.user.email}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h1 className="text-2xl font-semibold">
+                                        {salary.amount}
+                                    </h1>
+                                    <p className="text-gray-500">Amount</p>
+                                </div>
+                            </div>
+                            <div className="mt-6">
+                                <h1 className="text-xl font-semibold">
+                                    Bonus: {salary.bonus}
+                                </h1>
+                            </div>
                         </div>
                     </CardContent>
                 </Card>

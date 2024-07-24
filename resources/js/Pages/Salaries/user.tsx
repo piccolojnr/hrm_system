@@ -11,13 +11,16 @@ import {
 import { Head, Link } from "@inertiajs/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageProps } from "@/types";
-import { EditSalaryPageProps } from "@/types/salaries";
-import UpdateSalaryForm from "./partial/update-salary-form";
-export default function UserSalary({ salary }: PageProps<EditSalaryPageProps>) {
+import { UserSalariesPageProps } from "@/types/salaries";
+import { SalaryTable } from "./partial/salary-table";
+export default function UserSalary({
+    auth: { user },
+    pagination,
+}: PageProps<UserSalariesPageProps>) {
     return (
-        <AuthenticatedLayout title={salary.user.name + " Salary"}>
-            <ContentLayout title={salary.user.name + " Salary"}>
-                <Head title={salary.user.name + " Salary"} />
+        <AuthenticatedLayout title={user.name + " Salary"}>
+            <ContentLayout title={user.name + " Salary"}>
+                <Head title={user.name + " Salary"} />
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
@@ -27,25 +30,13 @@ export default function UserSalary({ salary }: PageProps<EditSalaryPageProps>) {
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbLink asChild>
-                                <Link href={route("salaries.index")}>
-                                    Salaries
-                                </Link>
-                            </BreadcrumbLink>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                            <BreadcrumbPage>
-                                {salary.user.name} Salary
-                            </BreadcrumbPage>
+                            <BreadcrumbPage>{user.name} Salary</BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
                 <Card className="rounded-lg border-none mt-6">
                     <CardContent className="p-6">
-                        <div className="p-4 sm:p-8 shadow sm:rounded-lg">
-                            <UpdateSalaryForm salary={salary} />
-                        </div>
+                        <SalaryTable pagination={pagination} />
                     </CardContent>
                 </Card>
             </ContentLayout>

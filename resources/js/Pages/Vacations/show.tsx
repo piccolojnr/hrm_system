@@ -10,21 +10,16 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Head, Link } from "@inertiajs/react";
 import { Card, CardContent } from "@/components/ui/card";
-import { PageProps, User } from "@/types";
-import { AttendancesPageProps } from "@/types/attendances";
-import { AttendanceTable } from "./partial/attendance-table";
-export default function Attendances({
-    pagination,
-    user,
-}: PageProps<
-    AttendancesPageProps & {
-        user?: User | null;
-    }
->) {
+import { PageProps } from "@/types";
+import { EditVacationPageProps } from "@/types/vacations";
+import UpdateVacationForm from "./partials/update-vacation-form";
+export default function UserVacation({
+    vacation,
+}: PageProps<EditVacationPageProps>) {
     return (
-        <AuthenticatedLayout title="Attendances">
-            <ContentLayout title="Attendances">
-                <Head title="Attendances" />
+        <AuthenticatedLayout title={vacation.user.name + " Vacation"}>
+            <ContentLayout title={vacation.user.name + " Vacation"}>
+                <Head title={vacation.user.name + " Vacation"} />
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
@@ -34,29 +29,25 @@ export default function Attendances({
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
+                            <BreadcrumbLink asChild>
+                                <Link href={route("profile.vacations")}>
+                                    Vacations
+                                </Link>
+                            </BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem>
                             <BreadcrumbPage>
-                                {user ? (
-                                    <Link href={route("attendances.index")}>
-                                        Attendances
-                                    </Link>
-                                ) : (
-                                    "Attendances"
-                                )}
+                                {vacation.user.name} Vacation
                             </BreadcrumbPage>
                         </BreadcrumbItem>
-                        {user && (
-                            <>
-                                <BreadcrumbSeparator />
-                                <BreadcrumbItem>
-                                    <BreadcrumbPage>{user.name}</BreadcrumbPage>
-                                </BreadcrumbItem>
-                            </>
-                        )}
                     </BreadcrumbList>
                 </Breadcrumb>
                 <Card className="rounded-lg border-none mt-6">
                     <CardContent className="p-6">
-                        <AttendanceTable pagination={pagination} />
+                        <div className="p-4 sm:p-8 shadow sm:rounded-lg">
+                            <UpdateVacationForm vacation={vacation} />
+                        </div>
                     </CardContent>
                 </Card>
             </ContentLayout>

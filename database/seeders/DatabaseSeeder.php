@@ -12,6 +12,7 @@ use App\Models\Employee;
 use App\Models\Role;
 use App\Models\UserRole;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Vacation;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -159,6 +160,7 @@ class DatabaseSeeder extends Seeder
             Attendance::factory()->create();
             Trainings::factory()->create();
             Evaluation::factory()->create();
+            Vacation::factory()->create();
         }
 
 

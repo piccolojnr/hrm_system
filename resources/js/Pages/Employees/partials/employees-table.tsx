@@ -139,10 +139,9 @@ export function EmployeesTable({
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                                 <Link
-                                    href={route(
-                                        "attendances.user",
-                                        employee.user.id
-                                    )}
+                                    href={route("attendances.index", {
+                                        user_id: employee.user.id,
+                                    })}
                                 >
                                     View Attendance
                                 </Link>

@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Ellipsis } from "lucide-react";
 import { DataTable } from "../../../components/DataTable";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import { Evaluation, EvaluationPaginatedResponse } from "@/types/evaluations";
 import moment from "moment";
 import {
@@ -18,6 +18,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { PageProps } from "@/types";
 
 export function EvaluationTable({
     pagination,
@@ -96,6 +97,7 @@ export function EvaluationTable({
             enableHiding: false,
             cell: ({ row }) => {
                 const Evaluation = row.original;
+                const { roles } = usePage<PageProps>().props.auth.user;
                 return (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -106,29 +108,35 @@ export function EvaluationTable({
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem>
-                                <Link
-                                    href={route(
-                                        "evaluations.show",
-                                        Evaluation.id
-                                    )}
-                                >
-                                    View
-                                </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Link
-                                    href={route(
-                                        "evaluations.destroy",
-                                        Evaluation.id
-                                    )}
-                                    method="delete"
-                                    as="button"
-                                    className="text-red-600"
-                                >
-                                    Delete
-                                </Link>
-                            </DropdownMenuItem>
+                            {roles
+                                .map((x) => x.slug)
+                                .includes("admin" || "hr_manager") && (
+                                <>
+                                    <DropdownMenuItem>
+                                        <Link
+                                            href={route(
+                                                "evaluations.show",
+                                                Evaluation.id
+                                            )}
+                                        >
+                                            View
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        <Link
+                                            href={route(
+                                                "evaluations.destroy",
+                                                Evaluation.id
+                                            )}
+                                            method="delete"
+                                            as="button"
+                                            className="text-red-600"
+                                        >
+                                            Delete
+                                        </Link>
+                                    </DropdownMenuItem>
+                                </>
+                            )}
                         </DropdownMenuContent>
                     </DropdownMenu>
                 );

@@ -40,12 +40,14 @@ export function DataTable<T>({
     pagination,
     visibleColumns = {},
     moreFilters = [],
+    disableDefaultFilters = false,
 }: {
     columns: ColumnDef<T>[];
     pagination: PaginatedResponse<T>;
     filterName: string;
     visibleColumns?: VisibilityState;
     moreFilters?: JSX.Element[];
+    disableDefaultFilters?: boolean;
 }) {
     const { data } = pagination;
     const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -83,7 +85,12 @@ export function DataTable<T>({
                         table.getRowModel().rows.length === 0 && "justify-end"
                     )}
                 >
-                    <DataTableFilter filterName={filterName} />
+                    {!disableDefaultFilters && (
+                        <DataTableFilter
+                            filterName={filterName}
+                            pagination={pagination}
+                        />
+                    )}
                     {moreFilters.map((Filter, index) => Filter)}
                 </div>
 
@@ -211,7 +218,13 @@ function Pagination<T>({
     );
 }
 
-const DataTableFilter = ({ filterName }: { filterName: string }) => {
+function DataTableFilter<T>({
+    filterName,
+    pagination,
+}: {
+    filterName: string;
+    pagination: PaginatedResponse<T>;
+}) {
     filterName = filterName.replace(".", "_");
 
     const { data, setData, get } = useForm({
@@ -220,7 +233,7 @@ const DataTableFilter = ({ filterName }: { filterName: string }) => {
     });
     const handleFilterSubmit = (event: any) => {
         event.preventDefault();
-        get("", { [filterName]: data[filterName] });
+        get("", { [filterName]: data[filterName], preserveState: true });
     };
 
     const handleClearFilter = () => {
@@ -242,9 +255,13 @@ const DataTableFilter = ({ filterName }: { filterName: string }) => {
                 }}
                 className="max-w-sm"
             />
-            <Button onClick={handleClearFilter} variant="outline" size="sm">
+            <Link
+                href={pagination.path}
+                as="button"
+                className="border rounded-md px-4 py-1"
+            >
                 Clear
-            </Button>
+            </Link>
         </form>
     );
-};
+}

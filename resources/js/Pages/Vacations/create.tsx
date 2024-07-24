@@ -11,13 +11,13 @@ import {
 import { Head, Link } from "@inertiajs/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageProps } from "@/types";
-import { EditSalaryPageProps } from "@/types/salaries";
-import UpdateSalaryForm from "./partial/update-salary-form";
-export default function UserSalary({ salary }: PageProps<EditSalaryPageProps>) {
+import { CreateVacationPageProps } from "@/types/vacations";
+import CreateVacationForm from "./partials/create-vacation-form";
+export default function CreateVacation({}: PageProps<CreateVacationPageProps>) {
     return (
-        <AuthenticatedLayout title={salary.user.name + " Salary"}>
-            <ContentLayout title={salary.user.name + " Salary"}>
-                <Head title={salary.user.name + " Salary"} />
+        <AuthenticatedLayout title="New Vacation">
+            <ContentLayout title="New Vacation">
+                <Head title="New Vacation" />
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
@@ -28,23 +28,21 @@ export default function UserSalary({ salary }: PageProps<EditSalaryPageProps>) {
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
                             <BreadcrumbLink asChild>
-                                <Link href={route("salaries.index")}>
-                                    Salaries
+                                <Link href={route("vacations.index")}>
+                                    Vacations
                                 </Link>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbPage>
-                                {salary.user.name} Salary
-                            </BreadcrumbPage>
+                            <BreadcrumbPage>New Vacation</BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
                 <Card className="rounded-lg border-none mt-6">
                     <CardContent className="p-6">
                         <div className="p-4 sm:p-8 shadow sm:rounded-lg">
-                            <UpdateSalaryForm salary={salary} />
+                            <CreateVacationForm />
                         </div>
                     </CardContent>
                 </Card>

@@ -1,4 +1,4 @@
-import { PaginatedResponse, User, PageProps } from ".";
+import { PageProps, PaginatedResponse, User } from ".";
 
 export interface Salary {
     id: number;
@@ -9,15 +9,19 @@ export interface Salary {
     updated_at: string;
 }
 
-export type SalaryPaginatedResponse = PaginatedResponse<Salary>;
-
-export type SalariesPageProps = PageProps<{
-    pagination: SalaryPaginatedResponse;
-}>;
-
 export type EditSalaryPageProps = PageProps<{
     salary: Salary;
 }>;
 
 export type CreateSalaryPageProps = PageProps<{}>;
 
+export type SalaryPaginatedResponse = PaginatedResponse<Salary>;
+
+
+export type SalariesPageProps = PageProps<{
+    pagination: SalaryPaginatedResponse;
+}>;
+
+export type UserSalariesPageProps = PageProps<{
+    pagination: SalaryPaginatedResponse;
+}>;

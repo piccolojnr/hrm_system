@@ -15,8 +15,8 @@ import { AttendancesPageProps } from "@/types/attendances";
 import { AttendanceTable } from "./partial/attendance-table";
 export default function UserAttendances({
     pagination,
-    user,
-}: PageProps<AttendancesPageProps & { user: User }>) {
+    auth: { user },
+}: PageProps<AttendancesPageProps>) {
     return (
         <AuthenticatedLayout title="Attendances">
             <ContentLayout title="Attendances">
@@ -27,14 +27,6 @@ export default function UserAttendances({
                             <BreadcrumbLink asChild>
                                 <Link href={route("dashboard")}>Home</Link>
                             </BreadcrumbLink>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                            <BreadcrumbPage>
-                                <Link href={route("attendances.index")}>
-                                    Attendances
-                                </Link>
-                            </BreadcrumbPage>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>

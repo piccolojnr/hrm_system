@@ -25,6 +25,29 @@ class SalaryController extends Controller
         ]);
     }
 
+    public function userSalaries(Request $request)
+    {
+        $pagination = Salary::where("user_id", auth()->id())
+            ->with("user")
+            ->orderBy("created_at", "desc")
+            ->paginate(10)
+            ->withQueryString();
+        return Inertia::render("Salaries/user", [
+            "pagination" => $pagination,
+        ]);
+    }
+
+    public function salarySlip(Request $request)
+    {
+        $salary = Salary::where("user_id", auth()->id())
+            ->with("user")
+            ->orderBy("created_at", "desc")
+            ->firstOrFail();
+        return Inertia::render("Salaries/salary-slip", [
+            "salary" => $salary,
+        ]);
+    }
+
     public function show(int $id)
     {
         $salary = Salary::with("user")->findOrFail($id);

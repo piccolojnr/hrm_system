@@ -11,30 +11,11 @@ class AttendanceController extends Controller
 {
     public function index(Request $request)
     {
+        $user_id = $request->query('user_id');
+        $user = User::findOrFail($user_id);
         $name = $request->query('user_name');
         $day = $request->query('day');
-        $pagination = Attendance::whereHas('user', function ($query) use ($name) { // phpcs:ignore
-            $query->where('name', 'like', "%{$name}%");
-        })
-            ->when($day, function ($query, $day) {
-                $query->whereDate('date', $day);
-            })
-            ->with('user')
-            ->orderBy('date', 'desc')
-            ->paginate(10)
-            ->withQueryString();
-
-        return Inertia::render('Attendances/index', [
-            'pagination' => $pagination,
-        ]);
-    }
-
-    public function userAttendances(Request $request, int $id)
-    {
-        $user = User::find($id);
-        $name = $request->query('user_name');
-        $day = $request->query('day');
-        $pagination = Attendance::where('user_id', $id)
+        $pagination = Attendance::where('user_id', $user_id)
             ->whereHas('user', function ($query) use ($name) { // phpcs:ignore
                 $query->where('name', 'like', "%{$name}%");
             })
@@ -45,12 +26,29 @@ class AttendanceController extends Controller
             ->orderBy('date', 'desc')
             ->paginate(10)
             ->withQueryString();
+
+        return Inertia::render('Attendances/index', [
+            'pagination' => $pagination,
+            'user' => $user,
+        ]);
+    }
+
+    public function userAttendances(Request $request)
+    {
+        $day = $request->query('day');
+        $pagination = Attendance::where('user_id', auth()->id())
+            ->when($day, function ($query, $day) {
+                $query->whereDate('date', $day);
+            })
+            ->with('user')
+            ->orderBy('date', 'desc')
+            ->paginate(10)
+            ->withQueryString();
         return Inertia::render(
-            'Attendances/user-attendances'
+            'Attendances/user'
             ,
             [
                 'pagination' => $pagination,
-                'user' => $user,
             ]
         );
     }

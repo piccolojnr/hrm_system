@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Ellipsis, Filter, X } from "lucide-react";
 import { DataTable } from "../../../components/DataTable";
-import { Link, useForm } from "@inertiajs/react";
+import { Link, useForm, usePage } from "@inertiajs/react";
 import { Attendance, AttendancePaginatedResponse } from "@/types/attendances";
 import {
     Tooltip,
@@ -22,6 +22,7 @@ import { useState } from "react";
 import Modal from "@/components/Modal";
 import moment from "moment";
 import { cn } from "@/lib/utils";
+import { PageProps } from "@/types";
 
 const TimeModal = ({
     name,
@@ -30,6 +31,7 @@ const TimeModal = ({
     name: string;
     attendance: Attendance;
 }) => {
+    const { roles } = usePage<PageProps>().props.auth.user;
     const [open, setOpen] = useState(false);
     const { data, patch, setData } = useForm({
         type: attendance.type || "",
@@ -58,17 +60,21 @@ const TimeModal = ({
             >
                 {data[name] ? data[name] : "Not yet"}
             </Button>
-            <Modal show={open} onClose={() => setOpen(false)}>
-                <form onSubmit={handleSubmit} className="p-6">
-                    <h1>{name === "check_in" ? "Check In" : "Check Out"}</h1>
-                    <Input
-                        type="time"
-                        value={data[name]}
-                        onChange={(e) => setData(name, e.target.value)}
-                    />
-                    <Button type="submit">Save</Button>
-                </form>
-            </Modal>
+            {roles.map((x) => x.slug).includes("admin" || "hr_manager") && (
+                <Modal show={open} onClose={() => setOpen(false)}>
+                    <form onSubmit={handleSubmit} className="p-6">
+                        <h1>
+                            {name === "check_in" ? "Check In" : "Check Out"}
+                        </h1>
+                        <Input
+                            type="time"
+                            value={data[name]}
+                            onChange={(e) => setData(name, e.target.value)}
+                        />
+                        <Button type="submit">Save</Button>
+                    </form>
+                </Modal>
+            )}
         </div>
     );
 };
@@ -174,6 +180,7 @@ export function AttendanceTable({
             enableHiding: false,
             cell: ({ row }) => {
                 const department = row.original;
+                const { roles } = usePage<PageProps>().props.auth.user;
                 return (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -184,20 +191,24 @@ export function AttendanceTable({
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem>
-                                {/* delete */}
-                                <Link
-                                    href={route(
-                                        "attendances.destroy",
-                                        department.id
-                                    )}
-                                    method="delete"
-                                    as="button"
-                                    className="flex items-center space-x-2 text-red-500"
-                                >
-                                    <span>Delete</span>
-                                </Link>
-                            </DropdownMenuItem>
+                            {roles
+                                .map((x) => x.slug)
+                                .includes("admin" || "hr_manager") && (
+                                <DropdownMenuItem>
+                                    {/* delete */}
+                                    <Link
+                                        href={route(
+                                            "attendances.destroy",
+                                            department.id
+                                        )}
+                                        method="delete"
+                                        as="button"
+                                        className="flex items-center space-x-2 text-red-500"
+                                    >
+                                        <span>Delete</span>
+                                    </Link>
+                                </DropdownMenuItem>
+                            )}
                         </DropdownMenuContent>
                     </DropdownMenu>
                 );

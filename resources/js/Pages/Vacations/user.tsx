@@ -10,21 +10,18 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Head, Link } from "@inertiajs/react";
 import { Card, CardContent } from "@/components/ui/card";
-import { PageProps, User } from "@/types";
-import { AttendancesPageProps } from "@/types/attendances";
-import { AttendanceTable } from "./partial/attendance-table";
-export default function Attendances({
+import { UserVacationsPageProps } from "@/types/vacations";
+import { PageProps } from "@/types";
+import { VacationTable } from "./partials/vacation-table";
+
+export default function UserVacations({
     pagination,
-    user,
-}: PageProps<
-    AttendancesPageProps & {
-        user?: User | null;
-    }
->) {
+    auth,
+}: PageProps<UserVacationsPageProps>) {
     return (
-        <AuthenticatedLayout title="Attendances">
-            <ContentLayout title="Attendances">
-                <Head title="Attendances" />
+        <AuthenticatedLayout title={auth.user.name + " Vacations"}>
+            <ContentLayout title={auth.user.name + " Vacations"}>
+                <Head title={auth.user.name + " Vacations"} />
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
@@ -34,29 +31,23 @@ export default function Attendances({
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
+                            <BreadcrumbLink asChild>
+                                <Link href={route("profile.edit")}>
+                                    Profile
+                                </Link>
+                            </BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem>
                             <BreadcrumbPage>
-                                {user ? (
-                                    <Link href={route("attendances.index")}>
-                                        Attendances
-                                    </Link>
-                                ) : (
-                                    "Attendances"
-                                )}
+                                {auth.user.name} Vacation
                             </BreadcrumbPage>
                         </BreadcrumbItem>
-                        {user && (
-                            <>
-                                <BreadcrumbSeparator />
-                                <BreadcrumbItem>
-                                    <BreadcrumbPage>{user.name}</BreadcrumbPage>
-                                </BreadcrumbItem>
-                            </>
-                        )}
                     </BreadcrumbList>
                 </Breadcrumb>
                 <Card className="rounded-lg border-none mt-6">
                     <CardContent className="p-6">
-                        <AttendanceTable pagination={pagination} />
+                        <VacationTable pagination={pagination} />
                     </CardContent>
                 </Card>
             </ContentLayout>

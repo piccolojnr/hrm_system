@@ -41,6 +41,18 @@ class EvaluationController extends Controller
         ]);
     }
 
+    public function userEvaluations(Request $request)
+    {
+        $pagination = Evaluation::where('user_id', auth()->id())
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10)
+            ->withQueryString();
+        return inertia('Evaluations/user', [
+            'pagination' => $pagination,
+        ]);
+    }
+
     public function store(Request $request)
     {
         try {

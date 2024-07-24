@@ -81,7 +81,9 @@ export function Menu({ isOpen }: MenuProps) {
                                                                     ? "secondary"
                                                                     : "ghost"
                                                             }
-                                                            className="w-full justify-start h-10 mb-1"
+                                                            className={cn(
+                                                                "w-full justify-start h-10 mb-1"
+                                                            )}
                                                             asChild
                                                         >
                                                             <Link href={href}>
