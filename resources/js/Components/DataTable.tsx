@@ -91,7 +91,7 @@ export function DataTable<T>({
                             pagination={pagination}
                         />
                     )}
-                    {moreFilters.map((Filter, index) => Filter)}
+                    {moreFilters.map((Filter) => Filter)}
                 </div>
 
                 <DropdownMenu>
@@ -236,25 +236,26 @@ function DataTableFilter<T>({
         get("", { [filterName]: data[filterName], preserveState: true });
     };
 
-    const handleClearFilter = () => {
-        const params = new URLSearchParams(window.location.search);
-        params.delete(filterName);
-        get("");
-    };
-
     return (
-        <form
-            onSubmit={handleFilterSubmit}
-            className="flex items-center space-x-2"
+        <div
+            className={cn(
+                "flex items-center space-x-2",
+                pagination.data.length === 0 && "justify-end"
+            )}
         >
-            <Input
-                placeholder="Filter..."
-                value={data[filterName]}
-                onChange={(event) => {
-                    setData(filterName, event.target.value);
-                }}
-                className="max-w-sm"
-            />
+            <form
+                onSubmit={handleFilterSubmit}
+                className="flex items-center space-x-2"
+            >
+                <Input
+                    placeholder="Filter..."
+                    value={data[filterName]}
+                    onChange={(event) => {
+                        setData(filterName, event.target.value);
+                    }}
+                    className="max-w-sm"
+                />
+            </form>
             <Link
                 href={pagination.path}
                 as="button"
@@ -262,6 +263,6 @@ function DataTableFilter<T>({
             >
                 Clear
             </Link>
-        </form>
+        </div>
     );
 }

@@ -10,32 +10,46 @@ import { Button } from "@/components/ui/button";
 import { Ellipsis } from "lucide-react";
 import { DataTable } from "../../../components/DataTable";
 import { Link } from "@inertiajs/react";
-import { Training, TrainingPaginatedResponse } from "@/types/trainings";
+import { UserPaginatedResponse } from "@/types/trainings";
 import moment from "moment";
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip";
 
-export function TrainingTable({
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { User } from "@/types";
+import { initials } from "@/lib/utils";
+
+export function UserTable({
     pagination,
 }: {
-    pagination: TrainingPaginatedResponse;
+    pagination: UserPaginatedResponse;
 }) {
-    const columns: ColumnDef<Training>[] = [
+    const columns: ColumnDef<
+        User & {
+            pivot: {
+                training_id: number;
+                user_id: number;
+            };
+        }
+    >[] = [
+        {
+            accessorFn: (row) => row.employee.photo,
+            id: "employee.photo",
+            header: "Photo",
+            cell: ({ row }) => (
+                <Avatar>
+                    <AvatarImage
+                        src={"photos/" + row.getValue("employee.photo")}
+                    />
+                    <AvatarFallback>
+                        {initials(row.getValue("name"))}
+                    </AvatarFallback>
+                </Avatar>
+            ),
+        },
         {
             accessorKey: "id",
             id: "id",
             header: "ID",
             cell: ({ row }) => <div>{row.getValue("id")}</div>,
-        },
-        {
-            accessorKey: "type",
-            id: "type",
-            header: "Type",
-            cell: ({ row }) => <div>{row.getValue("type")}</div>,
         },
         {
             accessorKey: "name",
@@ -46,49 +60,6 @@ export function TrainingTable({
             ),
         },
         {
-            accessorKey: "year",
-            id: "year",
-            header: "Year",
-            cell: ({ row }) => <div>{row.getValue("year")}</div>,
-        },
-        // user enrolled
-        {
-            accessorKey: "users_count",
-            id: "users_count",
-            header: "Users Enrolled",
-            cell: ({ row }) => (
-                <div className="text-center">{row.getValue("users_count")}</div>
-            ),
-        },
-        {
-            accessorKey: "description",
-            id: "description",
-            header: "Description",
-            cell: ({ row }) => (
-                <TooltipProvider>
-                    <Tooltip>
-                        <TooltipTrigger>
-                            <div
-                                className="capitalize truncate"
-                                style={{ maxWidth: "300px" }}
-                            >
-                                {row.getValue("description")}
-                            </div>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                            <p
-                                className="capitalize"
-                                style={{ maxWidth: "300px" }}
-                            >
-                                {row.getValue("description")}
-                            </p>
-                        </TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
-            ),
-        },
-
-        {
             accessorKey: "created_at",
             id: "created_at",
             header: "Created At",
@@ -96,6 +67,14 @@ export function TrainingTable({
                 <div className="capitalize">
                     {moment(row.getValue("created_at")).format("MMMM Do, YYYY")}
                 </div>
+            ),
+        },
+        {
+            accessorFn: (row) => row.username,
+            id: "username",
+            header: "Username",
+            cell: ({ row }) => (
+                <div className="lowercase">{row.getValue("username")}</div>
             ),
         },
         {
@@ -113,7 +92,7 @@ export function TrainingTable({
             id: "actions",
             enableHiding: false,
             cell: ({ row }) => {
-                const Training = row.original;
+                const user = row.original;
                 return (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -125,23 +104,21 @@ export function TrainingTable({
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuItem>
-                                <Link
-                                    href={route("trainings.show", Training.id)}
-                                >
+                                <Link href={route("employees.show", user.id)}>
                                     View
                                 </Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                                 <Link
-                                    href={route(
-                                        "trainings.destroy",
-                                        Training.id
-                                    )}
+                                    href={route("trainings.unenroll", {
+                                        training_id: user.pivot.training_id,
+                                        user_id: user.id,
+                                    })}
                                     method="delete"
                                     as="button"
                                     className="text-red-600"
                                 >
-                                    Delete
+                                    unenroll
                                 </Link>
                             </DropdownMenuItem>
                         </DropdownMenuContent>

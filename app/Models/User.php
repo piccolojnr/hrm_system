@@ -56,8 +56,23 @@ class User extends Authenticatable
         return $this->hasOne(Employee::class);
     }
 
+    public function trainings()
+    {
+        return $this->belongsToMany(Trainings::class, "user_trainings", 'user_id', 'training_id');
+    }
+
     public function isAdmin()
     {
         return $this->roles->contains('slug', 'admin');
+    }
+
+    public function isSuperAdmin()
+    {
+        return $this->roles->contains('slug', 'super-admin');
+    }
+
+    public function hasRole(string $role)
+    {
+        return $this->roles->contains('slug', $role);
     }
 }

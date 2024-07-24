@@ -11,13 +11,17 @@ import {
 import { Head, Link } from "@inertiajs/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageProps } from "@/types";
-import { CreateTrainingPageProps } from "@/types/trainings";
-import CreateTrainingForm from "./partials/create-training-form";
-export default function CreateTraining({}: PageProps<CreateTrainingPageProps>) {
+import { TrainingTable } from "./partials/training-table";
+import { TrainingsPageProps } from "@/types/trainings";
+
+export default function UserTrainings({
+    pagination,
+    auth,
+}: PageProps<TrainingsPageProps>) {
     return (
-        <AuthenticatedLayout title="New Training">
-            <ContentLayout title="New Training">
-                <Head title="Traininig" />
+        <AuthenticatedLayout title={auth.user.name + " Trainings"}>
+            <ContentLayout title={auth.user.name + " Trainings"}>
+                <Head title={auth.user.name + " Trainings"} />
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
@@ -28,22 +32,22 @@ export default function CreateTraining({}: PageProps<CreateTrainingPageProps>) {
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
                             <BreadcrumbLink asChild>
-                                <Link href={route("trainings.index")}>
-                                    Trainings
+                                <Link href={route("profile.edit")}>
+                                    Profile
                                 </Link>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbPage>New Training</BreadcrumbPage>
+                            <BreadcrumbPage>
+                                {auth.user.name} Training
+                            </BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
                 <Card className="rounded-lg border-none mt-6">
                     <CardContent className="p-6">
-                        <div className="p-4 sm:p-8 shadow sm:rounded-lg">
-                            <CreateTrainingForm />
-                        </div>
+                        <TrainingTable pagination={pagination} />
                     </CardContent>
                 </Card>
             </ContentLayout>

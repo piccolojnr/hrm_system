@@ -13,8 +13,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { PageProps } from "@/types";
 import { EditTrainingPageProps } from "@/types/trainings";
 import UpdateTrainingForm from "./partials/update-training-form";
+import { UserTable } from "./partials/user-table";
+import EnrollUserForm from "./partials/enroll-user-form";
 export default function UserTraining({
     training,
+    users,
 }: PageProps<EditTrainingPageProps>) {
     return (
         <AuthenticatedLayout title={training.name + " Training"}>
@@ -31,7 +34,7 @@ export default function UserTraining({
                         <BreadcrumbItem>
                             <BreadcrumbLink asChild>
                                 <Link href={route("trainings.index")}>
-                                    Training
+                                    Trainings
                                 </Link>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
@@ -47,6 +50,19 @@ export default function UserTraining({
                     <CardContent className="p-6">
                         <div className="p-4 sm:p-8 shadow sm:rounded-lg">
                             <UpdateTrainingForm training={training} />
+                        </div>
+                        {/* enroll user */}
+                        <div className="p-4 sm:p-8 shadow sm:rounded-lg mt-6">
+                            <h2 className="text-lg font-medium mb-4">
+                                Enroll Employee
+                            </h2>
+                            <EnrollUserForm training_id={training.id} />
+                        </div>
+                        <div className="p-4 sm:p-8 shadow sm:rounded-lg mt-6">
+                            <h2 className="text-lg font-medium mb-4">
+                                Employees Enrolled
+                            </h2>
+                            <UserTable pagination={users} />
                         </div>
                     </CardContent>
                 </Card>

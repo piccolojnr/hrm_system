@@ -17,7 +17,6 @@ export default function UpdateTrainingForm({
     const { data, setData, patch, errors, processing } = useForm({
         description: training.description || "",
         type: training.type || "",
-        username: training.user.username || "",
         name: training.name || "",
         year: training.year || "",
     });
@@ -50,19 +49,6 @@ export default function UpdateTrainingForm({
                         required
                     />
                     <InputError message={errors.type} className="mt-2" />
-                </div>
-
-                <div>
-                    <InputLabel htmlFor="username" value="Username" />
-                    <TextInput
-                        id="username"
-                        type="text"
-                        className="mt-1 block w-full"
-                        value={data.username}
-                        onChange={(e) => setData("username", e.target.value)}
-                        required
-                    />
-                    <InputError message={errors.username} className="mt-2" />
                 </div>
 
                 <div>

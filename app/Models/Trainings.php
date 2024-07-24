@@ -8,11 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Trainings extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'type', 'year', 'description', 'user_id'];
+    protected $fillable = ['name', 'type', 'year', 'description'];
 
 
-    public function user()
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class, 'user_trainings', 'training_id', 'user_id');
+    }
+
+    public function hasUser(User $user)
+    {
+        return $this->users->contains($user);
     }
 }

@@ -113,12 +113,6 @@ export function getMenuList(pathname: string, userRole: string): Group[] {
                             active: pathname === route("trainings.create"),
                             requiredRole: ["hr_manager"]
                         },
-                        {
-                            href: route("trainings.enroll"),
-                            label: "Enroll Employee",
-                            active: pathname === route("trainings.enroll"),
-                            requiredRole: ["hr_manager"]
-                        }
                     ],
                     requiredRole: ["hr_manager"]
                 },
@@ -260,7 +254,6 @@ export function getMenuList(pathname: string, userRole: string): Group[] {
         }
     ].map(group => ({
         ...group,
-        // menus: group.menus.filter(menu => menu.requiredRole.includes(userRole) || menu.requiredRole.includes('employee'))
-        menus: group.menus
+        menus: group.menus.filter(menu => menu.requiredRole.includes(userRole) || menu.requiredRole.includes('employee'))
     })) as Group[];
 }

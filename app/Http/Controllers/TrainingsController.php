@@ -11,15 +11,13 @@ class TrainingsController extends Controller
 
     public function index(Request $request)
     {
-        $name = $request->query('user_name');
+        $name = $request->query('name');
         $year = $request->query('year');
-        $pagination = Trainings::whereHas('user', function ($query) use ($name) { // phpcs:ignore
-            $query->where('name', 'like', "%{$name}%");
-        })
+        $pagination = Trainings::withCount('users')
+            ->where('name', 'like', "%$name%")
             ->when($year, function ($query, $year) {
                 $query->whereDate('year', $year);
             })
-            ->with('user')
             ->orderBy('year', 'desc')
             ->paginate(10)
             ->withQueryString();
@@ -29,11 +27,21 @@ class TrainingsController extends Controller
         ]);
     }
 
-    public function show(int $id)
+    public function show(Request $request, int $id)
     {
-        $training = Trainings::with("user")->findOrFail($id);
+        $name = $request->query('name');
+
+        $training = Trainings::findOrFail($id);
+        $users = $training->users()
+            ->where('name', 'like', "%$name%")
+            ->with('employee')
+            ->orderBy('name', 'asc')
+            ->paginate(10)
+            ->withQueryString();
+
         return inertia('Trainings/show', [
             'training' => $training,
+            'users' => $users,
         ]);
     }
 
@@ -47,17 +55,12 @@ class TrainingsController extends Controller
         try {
 
             $request->validate([
-                "username" => ['required', 'string', 'max:255', 'exists:users,username'],
                 'name' => 'required|string|max:255',
                 'type' => 'required|string|max:255',
                 'year' => 'required|digits:4',
                 'description' => 'nullable|string',
             ]);
             $training = new Trainings();
-
-            $user = User::where('username', $request->username)->first();
-
-            $training->user()->associate($user);
 
             $training->name = $request->name;
             $training->description = $request->description;
@@ -73,11 +76,42 @@ class TrainingsController extends Controller
         }
     }
 
+    public function userTrainings(Request $request)
+    {
+        $user_id = $request->user()->id;
+
+        $pagination = Trainings::when($user_id, function ($query) use ($user_id) {
+            $query->whereHas('users', function ($query) use ($user_id) {
+                $query->where('users.id', $user_id);
+            });
+        })
+            ->withCount('users')
+            ->orderBy('year', 'desc')
+            ->paginate(10)
+            ->withQueryString();
+
+        return inertia('Trainings/user', [
+            'pagination' => $pagination,
+        ]);
+    }
+
+
+
+    public function enrollUser(Request $request, int $id)
+    {
+        $training = Trainings::findOrFail($id);
+
+
+        return inertia('Trainings/enroll', [
+            'training' => $training
+        ]);
+    }
+
+
     public function update(Request $request, int $id)
     {
         try {
             $request->validate([
-                "username" => ['required', 'string', 'max:255', 'exists:users,username'],
                 'name' => 'required|string|max:255',
                 'type' => 'required|string|max:255',
                 'year' => 'required|digits:4',
@@ -86,8 +120,6 @@ class TrainingsController extends Controller
 
             $trainings = Trainings::findOrFail($id);
 
-            $user = User::where('username', $request->username)->first();
-            $request->merge(['user_id' => $user->id]);
             $trainings->update($request->all());
 
             return redirect()->back()->with('success', 'Training updated successfully');
@@ -96,13 +128,57 @@ class TrainingsController extends Controller
         }
     }
 
-    public function destroy(int $id)
+    public function destroy(Request $request, int $id)
     {
         try {
             $trainings = Trainings::findOrFail($id);
             $trainings->delete();
 
+            $request->session()->flash('success', 'Training deleted successfully');
             return redirect()->route('trainings.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function enroll(Request $request, int $id)
+    {
+        try {
+            $training = Trainings::findOrFail($id);
+
+            $request->validate([
+                'username' => ['required', 'string', 'max:255', 'exists:users,username'],
+            ]);
+
+            $user = User::where('username', $request->username)->first();
+
+            if ($training->hasUser($user)) {
+                return redirect()->back()->with('error', 'User already enrolled');
+            }
+
+            $training->users()->attach($user);
+
+            $request->session()->flash('success', 'User enrolled successfully');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function unenroll(Request $request, int $training_id, int $user_id)
+    {
+        try {
+            $training = Trainings::findOrFail($training_id);
+            $user = User::findOrFail($user_id);
+
+            if (!$training->hasUser($user)) {
+                return redirect()->back()->with('error', 'User not enrolled');
+            }
+
+            $training->users()->detach($user->id);
+
+            $request->session()->flash('success', 'User unenrolled successfully');
+            return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }

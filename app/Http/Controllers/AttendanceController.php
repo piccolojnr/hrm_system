@@ -12,12 +12,23 @@ class AttendanceController extends Controller
     public function index(Request $request)
     {
         $user_id = $request->query('user_id');
-        $user = User::findOrFail($user_id);
+
+        if ($user_id) {
+            $user = User::findOrFail($user_id);
+        } else {
+            $user = null; // Or handle this differently, e.g., set a default user or show a message
+        }
+
         $name = $request->query('user_name');
         $day = $request->query('day');
-        $pagination = Attendance::where('user_id', $user_id)
-            ->whereHas('user', function ($query) use ($name) { // phpcs:ignore
-                $query->where('name', 'like', "%{$name}%");
+
+        $pagination = Attendance::when($user_id, function ($query, $user_id) {
+            $query->where('user_id', $user_id);
+        })
+            ->when($name, function ($query, $name) {
+                $query->whereHas('user', function ($query) use ($name) {
+                    $query->where('name', 'like', "%{$name}%");
+                });
             })
             ->when($day, function ($query, $day) {
                 $query->whereDate('date', $day);
@@ -32,6 +43,7 @@ class AttendanceController extends Controller
             'user' => $user,
         ]);
     }
+
 
     public function userAttendances(Request $request)
     {

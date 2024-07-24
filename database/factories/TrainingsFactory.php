@@ -21,7 +21,6 @@ class TrainingsFactory extends Factory
             "type" => $this->faker->word,
             "year" => $this->faker->year,
             "description" => $this->faker->text,
-            "user_id" => \App\Models\User::all()->random()->id,
         ];
     }
 }
