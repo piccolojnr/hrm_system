@@ -108,8 +108,8 @@ export function EvaluationTable({
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            {roles.some(
-                                (x) => x.slug === "admin" || "hr_manager"
+                            {roles.some((x) =>
+                                ["admin", "hr_manager"].includes(x.slug)
                             ) && (
                                 <>
                                     <DropdownMenuItem>

@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
-import { PageProps } from "@/types";
+import { DashboardPageProps, PageProps } from "@/types";
 import { ContentLayout } from "@/components/panel/content-layout";
 import {
     Breadcrumb,
@@ -10,9 +10,13 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import EmailForm from "./partials/email-form";
 
-export default function Dashboard({ auth }: PageProps) {
+export default function Dashboard({
+    auth: { user },
+    statistics,
+}: DashboardPageProps) {
     return (
         <AuthenticatedLayout title="Dashboard">
             <ContentLayout title="Dashboard">
@@ -32,9 +36,58 @@ export default function Dashboard({ auth }: PageProps) {
                 </Breadcrumb>
                 <Card className="rounded-lg border-none mt-6">
                     <CardContent className="p-6">
-                        <div className=" overflow-hidden shadow-sm sm:rounded-lg">
-                            <div className="p-6 ">You're logged in!</div>
+                        <div className="p-6">
+                            <Head title="Dashboard" />
+                            <h1 className="text-2xl font-bold mb-6">
+                                Welcome, {user.name}!
+                            </h1>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div className=" p-4 rounded-lg shadow">
+                                    <h2 className="text-lg font-semibold">
+                                        Total Employees
+                                    </h2>
+                                    <p className="text-2xl">
+                                        {statistics.totalEmployees}
+                                    </p>
+                                </div>
+                                <div className=" p-4 rounded-lg shadow">
+                                    <h2 className="text-lg font-semibold">
+                                        Total Departments
+                                    </h2>
+                                    <p className="text-2xl">
+                                        {statistics.totalDepartments}
+                                    </p>
+                                </div>
+                                <div className=" p-4 rounded-lg shadow">
+                                    <h2 className="text-lg font-semibold">
+                                        Recent Attendance
+                                    </h2>
+                                    <ul
+                                        className="list-disc pl-5
+
+                                    "
+                                    >
+                                        {statistics.recentAttendance.map(
+                                            (attendance, index) => (
+                                                <li
+                                                    key={index}
+                                                    className="text-sm"
+                                                >
+                                                    {attendance.user.name} -{" "}
+                                                    {attendance.date}
+                                                </li>
+                                            )
+                                        )}
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
+                    </CardContent>
+                </Card>
+                <Card className="rounded-lg border-none mt-6">
+                    <CardContent className="p-6">
+                        <h1 className="text-2xl font-bold mb-6">Send Email</h1>
+                        <EmailForm />
                     </CardContent>
                 </Card>
             </ContentLayout>

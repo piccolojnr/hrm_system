@@ -69,10 +69,16 @@ export default function Edit({
                                 user={user}
                             />
                         </div>
-
-                        <div className="p-4 sm:p-8 shadow sm:rounded-lg">
-                            <DeleteUserForm className="max-w-xl" user={user} />
-                        </div>
+                        {user.roles.some((role) =>
+                            ["admin", "hr_manager"].includes(role.slug)
+                        ) && (
+                            <div className="p-4 sm:p-8 shadow sm:rounded-lg">
+                                <DeleteUserForm
+                                    className="max-w-xl"
+                                    user={user}
+                                />
+                            </div>
+                        )}
                     </CardContent>
                 </Card>
             </ContentLayout>

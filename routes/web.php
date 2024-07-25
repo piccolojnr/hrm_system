@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EvaluationController;
@@ -21,11 +22,11 @@ Route::get('/', function () {
     ]);
 })->middleware(['guest'])->name('welcome');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, "index"])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::post('/send-email', [DashboardController::class, 'sendEmail'])->name('send-email');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile/{id}/update', [ProfileController::class, 'update'])->where('id', '[0-9]+')->name('profile.update');
     Route::delete('/profile/{id}/destroy', [ProfileController::class, 'destroy'])->where('id', '[0-9]+')->name('profile.destroy');

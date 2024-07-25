@@ -231,8 +231,8 @@ export function VacationTable({
                                 </DropdownMenuItem>
                             )}
                             <DropdownMenuSeparator />
-                            {roles.some(
-                                (x) => x.slug === "admin" || "hr_manager"
+                            {roles.some((x) =>
+                                ["admin", "hr_manager"].includes(x.slug)
                             ) && (
                                 <>
                                     {row.getValue("status") === "pending" && (

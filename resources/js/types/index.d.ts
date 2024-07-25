@@ -1,3 +1,4 @@
+import { Attendance } from "./attendances";
 import { Department } from "./departments";
 import { Employee } from "./employees";
 
@@ -59,6 +60,14 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
         warning?: string;
     };
 };
+
+export type DashboardPageProps = PageProps<{
+    statistics: {
+        totalEmployees: number,
+        totalDepartments: number,
+        recentAttendance: Attendance[],
+    }
+}>;
 
 
 export type RegisterPageProps = PageProps<{
