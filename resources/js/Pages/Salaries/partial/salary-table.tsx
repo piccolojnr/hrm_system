@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Ellipsis } from "lucide-react";
 import { DataTable } from "../../../components/DataTable";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import { Salary, SalaryPaginatedResponse } from "@/types/salaries";
 import moment from "moment";
 import {
@@ -18,6 +18,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { PageProps } from "@/types";
 
 export function SalaryTable({
     pagination,
@@ -77,6 +78,8 @@ export function SalaryTable({
             enableHiding: false,
             cell: ({ row }) => {
                 const salary = row.original;
+                const { roles } = usePage<PageProps>().props.auth.user;
+
                 return (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -87,21 +90,35 @@ export function SalaryTable({
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem>
-                                <Link href={route("salaries.show", salary.id)}>
-                                    View
-                                </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Link
-                                    href={route("salaries.destroy", salary.id)}
-                                    method="delete"
-                                    as="button"
-                                    className="text-red-600"
-                                >
-                                    Delete
-                                </Link>
-                            </DropdownMenuItem>
+                            {roles.some(
+                                (x) => x.slug === "admin" || "hr_manager"
+                            ) && (
+                                <>
+                                    <DropdownMenuItem>
+                                        <Link
+                                            href={route(
+                                                "salaries.show",
+                                                salary.id
+                                            )}
+                                        >
+                                            View
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        <Link
+                                            href={route(
+                                                "salaries.destroy",
+                                                salary.id
+                                            )}
+                                            method="delete"
+                                            as="button"
+                                            className="text-red-600"
+                                        >
+                                            Delete
+                                        </Link>
+                                    </DropdownMenuItem>
+                                </>
+                            )}
                         </DropdownMenuContent>
                     </DropdownMenu>
                 );

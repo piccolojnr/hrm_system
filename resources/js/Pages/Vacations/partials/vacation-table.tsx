@@ -206,6 +206,7 @@ export function VacationTable({
             enableHiding: false,
             cell: ({ row }) => {
                 const Vacation = row.original;
+                const { roles } = usePage<PageProps>().props.auth.user;
 
                 return (
                     <DropdownMenu>
@@ -230,9 +231,9 @@ export function VacationTable({
                                 </DropdownMenuItem>
                             )}
                             <DropdownMenuSeparator />
-                            {roles
-                                .map((x) => x.slug)
-                                .includes("admin" || "hr_manager") && (
+                            {roles.some(
+                                (x) => x.slug === "admin" || "hr_manager"
+                            ) && (
                                 <>
                                     {row.getValue("status") === "pending" && (
                                         <>

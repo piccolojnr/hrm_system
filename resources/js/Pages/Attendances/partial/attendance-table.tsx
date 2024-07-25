@@ -191,9 +191,12 @@ export function AttendanceTable({
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            {roles
-                                .map((x) => x.slug)
-                                .includes("admin" || "hr_manager") && (
+                            {roles.some(
+                                (x) =>
+                                    x.slug === "admin" ||
+                                    "hr_manager" ||
+                                    "department_manager"
+                            ) && (
                                 <DropdownMenuItem>
                                     {/* delete */}
                                     <Link

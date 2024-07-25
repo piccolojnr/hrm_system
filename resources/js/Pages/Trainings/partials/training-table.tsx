@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Ellipsis } from "lucide-react";
 import { DataTable } from "../../../components/DataTable";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import { Training, TrainingPaginatedResponse } from "@/types/trainings";
 import moment from "moment";
 import {
@@ -18,6 +18,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { PageProps } from "@/types";
 
 export function TrainingTable({
     pagination,
@@ -114,6 +115,7 @@ export function TrainingTable({
             enableHiding: false,
             cell: ({ row }) => {
                 const Training = row.original;
+                const { roles } = usePage<PageProps>().props.auth.user;
                 return (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -124,26 +126,35 @@ export function TrainingTable({
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem>
-                                <Link
-                                    href={route("trainings.show", Training.id)}
-                                >
-                                    View
-                                </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Link
-                                    href={route(
-                                        "trainings.destroy",
-                                        Training.id
-                                    )}
-                                    method="delete"
-                                    as="button"
-                                    className="text-red-600"
-                                >
-                                    Delete
-                                </Link>
-                            </DropdownMenuItem>
+                            {roles.some(
+                                (x) => x.slug === "admin" || "hr_manager"
+                            ) && (
+                                <>
+                                    <DropdownMenuItem>
+                                        <Link
+                                            href={route(
+                                                "trainings.show",
+                                                Training.id
+                                            )}
+                                        >
+                                            View
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        <Link
+                                            href={route(
+                                                "trainings.destroy",
+                                                Training.id
+                                            )}
+                                            method="delete"
+                                            as="button"
+                                            className="text-red-600"
+                                        >
+                                            Delete
+                                        </Link>
+                                    </DropdownMenuItem>
+                                </>
+                            )}
                         </DropdownMenuContent>
                     </DropdownMenu>
                 );

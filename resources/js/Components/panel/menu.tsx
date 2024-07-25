@@ -181,6 +181,7 @@ export function Menu({ isOpen }: MenuProps) {
                     </li>
                 </ul>
             </nav>
+            <div className="h-16 " />
         </ScrollArea>
     );
 }

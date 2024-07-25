@@ -22,12 +22,6 @@ export default function GuestLayout({ children }: PropsWithChildren) {
                     >
                         Login
                     </Link>
-                    <Link
-                        href="/register"
-                        className="ml-4 text-sm text-gray-700 dark:text-gray-200"
-                    >
-                        Register
-                    </Link>
                     <div className="inline-block ml-4 text-gray-700 dark:text-gray-200">
                         <ModeToggle />
                     </div>

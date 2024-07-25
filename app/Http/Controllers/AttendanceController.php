@@ -12,6 +12,7 @@ class AttendanceController extends Controller
     public function index(Request $request)
     {
         $user_id = $request->query('user_id');
+        $current_user = $request->user();
 
         if ($user_id) {
             $user = User::findOrFail($user_id);
@@ -25,6 +26,7 @@ class AttendanceController extends Controller
         $pagination = Attendance::when($user_id, function ($query, $user_id) {
             $query->where('user_id', $user_id);
         })
+
             ->when($name, function ($query, $name) {
                 $query->whereHas('user', function ($query) use ($name) {
                     $query->where('name', 'like', "%{$name}%");
@@ -34,9 +36,16 @@ class AttendanceController extends Controller
                 $query->whereDate('date', $day);
             })
             ->with('user')
+            ->when($current_user->hasRole('department_manager'), function ($query) use ($current_user) {
+                $query->whereHas('user', function ($query) use ($current_user) {
+                    $query->where('user_id', $current_user->id);
+                });
+            })
             ->orderBy('date', 'desc')
             ->paginate(10)
             ->withQueryString();
+
+        \Gate::authorize('viewAny', User::class);
 
         return Inertia::render('Attendances/index', [
             'pagination' => $pagination,
@@ -48,14 +57,24 @@ class AttendanceController extends Controller
     public function userAttendances(Request $request)
     {
         $day = $request->query('day');
+        $current_user = $request->user();
+
         $pagination = Attendance::where('user_id', auth()->id())
             ->when($day, function ($query, $day) {
                 $query->whereDate('date', $day);
             })
             ->with('user')
+            ->when($current_user->hasRole('department_manager'), function ($query) use ($current_user) {
+                $query->whereHas('user', function ($query) use ($current_user) {
+                    $query->where('user_id', $current_user->id);
+                });
+            })
             ->orderBy('date', 'desc')
             ->paginate(10)
             ->withQueryString();
+
+        \Gate::authorize('viewAny', User::class);
+
         return Inertia::render(
             'Attendances/user'
             ,
@@ -70,15 +89,10 @@ class AttendanceController extends Controller
         return Inertia::render('Attendances/create');
     }
 
-    public function show(Attendance $attendance)
-    {
-        return Inertia::render('Attendances/show', [
-            'attendance' => $attendance->load('user'),
-        ]);
-    }
-
     public function store(Request $request)
     {
+
+
         $request->validate([
             "type" => ['required', 'string', 'max:255'],
             "username" => ['required', 'string', 'max:255', 'exists:users,username'],
@@ -90,6 +104,7 @@ class AttendanceController extends Controller
 
         $user = User::where('username', $request->username)->first();
 
+        \Gate::authorize('update', $user);
         $attendance = new Attendance();
         $attendance->type = $request->type;
         $attendance->user_id = $user->id;
@@ -110,6 +125,8 @@ class AttendanceController extends Controller
     public function update(Request $request, int $id)
     {
         try {
+
+
             $request->validate([
                 'type' => 'required',
                 'user_id' => 'required',
@@ -119,6 +136,9 @@ class AttendanceController extends Controller
             ]);
 
             $user = User::findOrFail($request->user_id);
+
+
+            \Gate::authorize('update', $user);
             $attendance = Attendance::findOrFail($id);
             $attendance->type = $request->type;
             $attendance->user_id = $user->id;
@@ -135,10 +155,15 @@ class AttendanceController extends Controller
         }
     }
 
-    public function destroy(int $id)
+    public function destroy(Request $request, int $id)
     {
         try {
+
             $attendance = Attendance::findOrFail($id);
+
+
+            \Gate::authorize('delete', $attendance->user);
+
             $attendance->delete();
             return redirect()->back()->with('success', 'Attendance deleted successfully');
         } catch (\Exception $e) {

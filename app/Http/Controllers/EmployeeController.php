@@ -14,16 +14,22 @@ class EmployeeController extends Controller
 {
     public function index(Request $request)
     {
+
+
         $filter = $request->query('user_name', '');
+        $user = $request->user();
 
         $pagination = Employee::whereHas('user', function ($query) use ($filter) { // phpcs:ignore
             $query->where('name', 'like', "%{$filter}%");
         })
+            ->when($user->hasRole('department_manager'), function ($query) use ($user) {
+                $query->where('department_id', $user->employee->department_id);
+            })
             ->with('user', 'department')
             ->paginate(10)
             ->withQueryString();
 
-
+        \Gate::authorize('viewAny', User::class);
 
         return Inertia::render("Employees/index", [
             "pagination" => $pagination,
@@ -34,10 +40,13 @@ class EmployeeController extends Controller
     public function show(int $id)
     {
         $user = User::where('id', $id);
+        \Gate::authorize('view', $user->first());
 
         $roles = Role::all()->reject(function ($role) {
             return $role->slug === 'admin';
         })->values();
+
+
         $departments = Department::all();
         return Inertia::render("Employees/show", [
             'user' => $user->with('employee', "roles")->with("employee.department")->first(),
@@ -66,6 +75,8 @@ class EmployeeController extends Controller
         try {
             $user = User::findOrFail($id);
 
+            \Gate::authorize('update', $user);
+
             $data = $request->validated();
 
             if ($request->has('department')) {
@@ -84,6 +95,7 @@ class EmployeeController extends Controller
     public function updatePhoto(Request $request, int $id)
     {
         $user = User::findOrFail($id);
+        \Gate::authorize('update', $user);
 
         $request->validate([
             'photo' => ['required', 'image', 'max:1024'],
@@ -94,6 +106,14 @@ class EmployeeController extends Controller
             $filepath = public_path('photos');
 
             if ($request->hasFile('photo')) {
+                // Delete existing photo if it exists
+                if ($user->employee->photo) {
+                    $existingPhotoPath = $filepath . '/' . $user->employee->photo;
+                    if (\File::exists($existingPhotoPath)) {
+                        \File::delete($existingPhotoPath);
+                    }
+                }
+
                 $photo = $request->file('photo');
                 $filename = time() . '.' . $photo->getClientOriginalExtension();
 

@@ -40,6 +40,8 @@ class ProfileController extends Controller
         try {
             $user = User::findOrFail($id);
 
+            \Gate::authorize('update', $user);
+
             $data = $request->validated();
 
             $user->fill($data);
@@ -71,6 +73,7 @@ class ProfileController extends Controller
     public function destroy(Request $request, int $id): RedirectResponse
     {
         $user = User::findOrFail($id);
+        \Gate::authorize('delete', $user);
 
         if (!$request->user()->isAdmin()) {
             $request->validate([

@@ -32,16 +32,13 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:admin,hr_manager')->group(function () {
 
-        Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
-        Route::get('/employees/{id}/show', [EmployeeController::class, 'show'])->where('id', '[0-9]+')->name('employees.show');
 
 
         Route::get('/employees/create', [EmployeeController::class, 'create'])->name('employees.create');
         Route::post('/employees/create', [EmployeeController::class, 'store'])->name('employees.create');
 
 
-        Route::patch('/employee/{id}/update', [EmployeeController::class, 'update'])->where('id', '[0-9]+')->name('employee.update');
-        Route::post('/employee/{id}/update-photo', [EmployeeController::class, 'updatePhoto'])->where('id', '[0-9]+')->name('employee.update.photo');
+
 
         Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
         Route::get('/departments/create', [DepartmentController::class, 'create'])->name('departments.create');
@@ -67,6 +64,12 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::middleware('role:admin,hr_manager,department_manager')->group(function () {
+        Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
+        Route::get('/employees/{id}/show', [EmployeeController::class, 'show'])->where('id', '[0-9]+')->name('employees.show');
+        Route::patch('/employee/{id}/update', [EmployeeController::class, 'update'])->where('id', '[0-9]+')->name('employee.update');
+        Route::post('/employee/{id}/update-photo', [EmployeeController::class, 'updatePhoto'])->where('id', '[0-9]+')->name('employee.update.photo');
+
+
         Route::get('/attendances', [AttendanceController::class, 'index'])->name('attendances.index');
 
         Route::get('/attendances/create', [AttendanceController::class, 'create'])->name('attendances.create');
@@ -81,7 +84,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/trainings/create', [TrainingsController::class, 'create'])->name('trainings.create');
         Route::post('/trainings/create', [TrainingsController::class, 'store'])->name('trainings.create');
 
-        // enroll user to training
+        // endroll user to training
         Route::post('/trainings/{id}/enroll', [TrainingsController::class, 'enroll'])->where('id', '[0-9]+')->name('trainings.enroll');
         Route::delete('/trainings/{training_id}/enroll/{user_id}', [TrainingsController::class, 'unenroll'])->where('training_id', '[0-9]+')->where('user_id', '[0-9]+')->name('trainings.unenroll');
 

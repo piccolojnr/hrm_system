@@ -10,6 +10,8 @@ class EvaluationController extends Controller
 {
     public function index(Request $request)
     {
+        $current_user = $request->user();
+
         $name = $request->query('user_name');
         $year = $request->query('year');
         $pagination = Evaluation::whereHas('user', function ($query) use ($name) { // phpcs:ignore
@@ -19,6 +21,11 @@ class EvaluationController extends Controller
                 $query->whereDate('year', $year);
             })
             ->with('user')
+            ->when($current_user->hasRole('department_manager'), function ($query) use ($current_user) {
+                $query->whereHas('user', function ($query) use ($current_user) {
+                    $query->where('user_id', $current_user->id);
+                });
+            })
             ->orderBy('created_at', 'desc')
             ->paginate(10)
             ->withQueryString();
@@ -36,6 +43,8 @@ class EvaluationController extends Controller
     public function show(Request $request, int $id)
     {
         $evaluation = Evaluation::with("user")->findOrFail($id);
+        \Gate::authorize('view', $evaluation->user);
+
         return inertia('Evaluations/show', [
             'evaluation' => $evaluation,
         ]);
@@ -43,8 +52,15 @@ class EvaluationController extends Controller
 
     public function userEvaluations(Request $request)
     {
+        $current_user = $request->user();
+
         $pagination = Evaluation::where('user_id', auth()->id())
             ->with('user')
+            ->when($current_user->hasRole('department_manager'), function ($query) use ($current_user) {
+                $query->whereHas('user', function ($query) use ($current_user) {
+                    $query->where('user_id', $current_user->id);
+                });
+            })
             ->orderBy('created_at', 'desc')
             ->paginate(10)
             ->withQueryString();
@@ -65,6 +81,7 @@ class EvaluationController extends Controller
             $evaluation = new Evaluation();
 
             $user = User::where('username', $request->username)->first();
+            \Gate::authorize('update', $user);
 
             $evaluation->user()->associate($user);
 
@@ -87,6 +104,7 @@ class EvaluationController extends Controller
                 'notes' => 'nullable|string',
             ]);
             $evaluation = Evaluation::findOrFail($id);
+            \Gate::authorize('update', $evaluation->user);
 
             $evaluation->value = $request->value;
             $evaluation->notes = $request->notes;
@@ -103,6 +121,7 @@ class EvaluationController extends Controller
     {
         try {
             $evaluation = Evaluation::findOrFail($id);
+            \Gate::authorize('update', $evaluation->user);
             $evaluation->delete();
             return redirect()->route('evaluations.index')->with('success', 'Evaluation deleted successfully');
         } catch (\Exception $e) {
