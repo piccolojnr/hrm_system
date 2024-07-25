@@ -13,14 +13,14 @@ import {
     Table as ITable,
 } from "@tanstack/react-table";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
+} from "@/Components/ui/dropdown-menu";
+import { Input } from "@/Components/ui/input";
 import {
     Table,
     TableBody,
@@ -28,7 +28,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table";
+} from "@/Components/ui/table";
 import { ChevronDownIcon } from "lucide-react";
 import { Link, useForm } from "@inertiajs/react";
 import { PaginatedResponse } from "@/types";

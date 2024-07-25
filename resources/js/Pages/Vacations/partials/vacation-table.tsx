@@ -7,10 +7,10 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
+} from "@/Components/ui/dropdown-menu";
+import { Button } from "@/Components/ui/button";
 import { ChevronDownIcon, Ellipsis } from "lucide-react";
-import { DataTable } from "../../../components/DataTable";
+import { DataTable } from "@/Components/DataTable";
 import { Link, useForm, usePage } from "@inertiajs/react";
 import {
     Vacation,

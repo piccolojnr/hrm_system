@@ -1,4 +1,4 @@
-import { ContentLayout } from "@/components/panel/content-layout";
+import { ContentLayout } from "@/Components/panel/content-layout";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -6,8 +6,8 @@ import {
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Card, CardContent } from "@/components/ui/card";
+} from "@/Components/ui/breadcrumb";
+import { Card, CardContent } from "@/Components/ui/card";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import { Head, Link } from "@inertiajs/react";

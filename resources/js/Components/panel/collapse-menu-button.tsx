@@ -3,18 +3,18 @@ import { useState } from "react";
 import { ChevronDown, Dot, LucideIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import {
     Collapsible,
     CollapsibleContent,
     CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+} from "@/Components/ui/collapsible";
 import {
     Tooltip,
     TooltipTrigger,
     TooltipContent,
     TooltipProvider,
-} from "@/components/ui/tooltip";
+} from "@/Components/ui/tooltip";
 import {
     DropdownMenu,
     DropdownMenuItem,
@@ -22,7 +22,7 @@ import {
     DropdownMenuTrigger,
     DropdownMenuContent,
     DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
+} from "@/Components/ui/dropdown-menu";
 import { DropdownMenuArrow } from "@radix-ui/react-dropdown-menu";
 
 type Submenu = {

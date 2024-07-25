@@ -1,7 +1,7 @@
-import InputLabel from "@/components/InputLabel";
-import PrimaryButton from "@/components/PrimaryButton";
-import TextInput from "@/components/TextInput";
-import { Textarea } from "@/components/ui/textarea";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import TextInput from "@/Components/TextInput";
+import { Textarea } from "@/Components/ui/textarea";
 import { useForm } from "@inertiajs/react";
 import React, { useState } from "react";
 

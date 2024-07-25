@@ -12,9 +12,9 @@ import {
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { ContentLayout } from "@/components/panel/content-layout";
-import { Card, CardContent } from "@/components/ui/card";
+} from "@/Components/ui/breadcrumb";
+import { ContentLayout } from "@/Components/panel/content-layout";
+import { Card, CardContent } from "@/Components/ui/card";
 import UpdateEmployeeInformationForm from "../Profile/partials/update-employee-information-form";
 import UpdateEmployeePhoto from "../Profile/partials/update-employee-photo";
 import { EditEmployeePageProps } from "@/types/employees";

@@ -1,13 +1,13 @@
 import { MenuIcon, PanelsTopLeft } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Menu } from "@/components/panel/menu";
+import { Button } from "@/Components/ui/button";
+import { Menu } from "@/Components/panel/menu";
 import {
     Sheet,
     SheetHeader,
     SheetContent,
     SheetTrigger,
-} from "@/components/ui/sheet";
+} from "@/Components/ui/sheet";
 import { Link, usePage } from "@inertiajs/react";
 
 export function SheetMenu() {

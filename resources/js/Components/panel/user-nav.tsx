@@ -2,14 +2,14 @@
 
 import { LayoutGrid, LogOut, User as UserIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/Components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/Components/ui/avatar";
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
     TooltipProvider,
-} from "@/components/ui/tooltip";
+} from "@/Components/ui/tooltip";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -18,7 +18,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/Components/ui/dropdown-menu";
 import { Link, usePage } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import { initials } from "@/lib/utils";

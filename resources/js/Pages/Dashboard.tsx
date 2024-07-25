@@ -1,7 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import { DashboardPageProps, PageProps } from "@/types";
-import { ContentLayout } from "@/components/panel/content-layout";
+import { ContentLayout } from "@/Components/panel/content-layout";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -9,8 +9,8 @@ import {
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+} from "@/Components/ui/breadcrumb";
+import { Card, CardContent, CardHeader } from "@/Components/ui/card";
 import EmailForm from "./partials/email-form";
 
 export default function Dashboard({

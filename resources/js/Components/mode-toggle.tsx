@@ -1,10 +1,10 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
     TooltipProvider,
-} from "@/components/ui/tooltip";
+} from "@/Components/ui/tooltip";
 import useDarkSide, { Theme } from "@/hooks/use-dark-side";
 import { MoonIcon, SunIcon } from "lucide-react";
 

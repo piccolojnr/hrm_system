@@ -7,9 +7,9 @@ import {
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { ContentLayout } from "@/components/panel/content-layout";
-import { Card, CardContent } from "@/components/ui/card";
+} from "@/Components/ui/breadcrumb";
+import { ContentLayout } from "@/Components/panel/content-layout";
+import { Card, CardContent } from "@/Components/ui/card";
 import { EditDepartmentPageProps } from "@/types/departments";
 import UpdateDepartmentForm from "./partials/update-department-form";
 import DeleteDepartmentForm from "./partials/delete-department-form";

@@ -5,10 +5,10 @@ import {
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
+} from "@/Components/ui/dropdown-menu";
+import { Button } from "@/Components/ui/button";
 import { Ellipsis } from "lucide-react";
-import { DataTable } from "../../../components/DataTable";
+import { DataTable } from "@/Components/DataTable";
 import { Link, usePage } from "@inertiajs/react";
 import { Training, TrainingPaginatedResponse } from "@/types/trainings";
 import moment from "moment";
@@ -17,7 +17,7 @@ import {
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "@/Components/ui/tooltip";
 import { PageProps } from "@/types";
 
 export function TrainingTable({

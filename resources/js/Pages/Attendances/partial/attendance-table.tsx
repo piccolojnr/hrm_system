@@ -5,10 +5,10 @@ import {
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
+} from "@/Components/ui/dropdown-menu";
+import { Button } from "@/Components/ui/button";
 import { Ellipsis, Filter, X } from "lucide-react";
-import { DataTable } from "../../../components/DataTable";
+import { DataTable } from "@/Components/DataTable";
 import { Link, useForm, usePage } from "@inertiajs/react";
 import { Attendance, AttendancePaginatedResponse } from "@/types/attendances";
 import {
@@ -16,10 +16,10 @@ import {
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Input } from "@/components/ui/input";
+} from "@/Components/ui/tooltip";
+import { Input } from "@/Components/ui/input";
 import { useState } from "react";
-import Modal from "@/components/Modal";
+import Modal from "@/Components/Modal";
 import moment from "moment";
 import { cn } from "@/lib/utils";
 import { PageProps } from "@/types";

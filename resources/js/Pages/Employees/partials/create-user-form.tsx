@@ -1,11 +1,11 @@
-import InputError from "@/components/InputError";
-import InputLabel from "@/components/InputLabel";
-import PrimaryButton from "@/components/PrimaryButton";
-import TextInput from "@/components/TextInput";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import TextInput from "@/Components/TextInput";
 import { useForm, usePage } from "@inertiajs/react";
 import { FormEventHandler } from "react";
 import { RoleSlug } from "@/types";
-import CustomMultiSelect from "@/components/extension/multi-select";
+import CustomMultiSelect from "@/Components/extension/multi-select";
 import {
     Select,
     SelectGroup,
@@ -14,7 +14,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select";
+} from "@/Components/ui/select";
 import { CreateEmployeePageProps } from "@/types/employees";
 export default function CreateUserForm({
     className = "",

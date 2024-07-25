@@ -1,9 +1,9 @@
 import { useEffect, FormEventHandler } from "react";
 import GuestLayout from "@/Layouts/GuestLayout";
-import InputError from "@/components/InputError";
-import InputLabel from "@/components/InputLabel";
-import PrimaryButton from "@/components/PrimaryButton";
-import TextInput from "@/components/TextInput";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import TextInput from "@/Components/TextInput";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import { RegisterPageProps, RoleSlug } from "@/types";
 import {
@@ -14,8 +14,8 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select";
-import CustomMultiSelect from "@/components/extension/multi-select";
+} from "@/Components/ui/select";
+import CustomMultiSelect from "@/Components/extension/multi-select";
 
 export default function Register() {
     const { roles, departments } = usePage<RegisterPageProps>().props;

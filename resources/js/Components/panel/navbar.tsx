@@ -1,6 +1,6 @@
-import { ModeToggle } from "@/components/mode-toggle";
-import { UserNav } from "@/components/panel/user-nav";
-import { SheetMenu } from "@/components/panel/sheet-menu";
+import { ModeToggle } from "@/Components/mode-toggle";
+import { UserNav } from "@/Components/panel/user-nav";
+import { SheetMenu } from "@/Components/panel/sheet-menu";
 import { cn } from "@/lib/utils";
 import { useStore } from "zustand";
 import { useSidebarToggle } from "@/hooks/use-sidebar-toggle";

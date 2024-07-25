@@ -1,7 +1,7 @@
 import { useState, FormEventHandler } from "react";
-import DangerButton from "@/components/DangerButton";
-import Modal from "@/components/Modal";
-import SecondaryButton from "@/components/SecondaryButton";
+import DangerButton from "@/Components/DangerButton";
+import Modal from "@/Components/Modal";
+import SecondaryButton from "@/Components/SecondaryButton";
 import { useForm } from "@inertiajs/react";
 import { Department } from "@/types/departments";
 

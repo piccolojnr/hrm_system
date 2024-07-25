@@ -1,8 +1,8 @@
-import ApplicationLogo from "@/components/ApplicationLogo";
-import { ModeToggle } from "@/components/mode-toggle";
-import { Footer } from "@/components/panel/footer";
-import ToastContainer from "@/components/ToastContainer";
-import { Toaster } from "@/components/ui/toaster";
+import ApplicationLogo from "@/Components/ApplicationLogo";
+import { ModeToggle } from "@/Components/mode-toggle";
+import { Footer } from "@/Components/panel/footer";
+import ToastContainer from "@/Components/ToastContainer";
+import { Toaster } from "@/Components/ui/toaster";
 import { PageProps } from "@/types";
 import { Link, usePage } from "@inertiajs/react";
 import { PropsWithChildren } from "react";

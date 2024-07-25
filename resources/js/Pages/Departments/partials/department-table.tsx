@@ -5,10 +5,10 @@ import {
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
+} from "@/Components/ui/dropdown-menu";
+import { Button } from "@/Components/ui/button";
 import { Ellipsis } from "lucide-react";
-import { DataTable } from "../../../components/DataTable";
+import { DataTable } from "@/Components/DataTable";
 import { Link } from "@inertiajs/react";
 import { Department, DepartmentPaginatedResponse } from "@/types/departments";
 import moment from "moment";

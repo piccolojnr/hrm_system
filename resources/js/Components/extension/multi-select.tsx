@@ -1,6 +1,6 @@
 import React from "react";
-import InputError from "@/components/InputError";
-import InputLabel from "@/components/InputLabel";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
 import {
     Select,
     SelectGroup,
@@ -9,7 +9,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select";
+} from "@/Components/ui/select";
 import { Badge } from "../ui/badge";
 import { Role, RoleSlug } from "@/types";
 

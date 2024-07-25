@@ -1,14 +1,14 @@
 import { PropsWithChildren } from "react";
 import { PageProps } from "@/types";
-import Sidebar from "@/components/panel/sidebar";
+import Sidebar from "@/Components/panel/sidebar";
 import { useStore } from "zustand";
 import { useSidebarToggle } from "@/hooks/use-sidebar-toggle";
-import { Footer } from "@/components/panel/footer";
+import { Footer } from "@/Components/panel/footer";
 import { cn } from "@/lib/utils";
-import { Navbar } from "@/components/panel/navbar";
+import { Navbar } from "@/Components/panel/navbar";
 import { usePage } from "@inertiajs/react";
-import ToastContainer from "@/components/ToastContainer";
-import { Toaster } from "@/components/ui/toaster";
+import ToastContainer from "@/Components/ToastContainer";
+import { Toaster } from "@/Components/ui/toaster";
 
 export default function AuthenticatedLayout({
     children,

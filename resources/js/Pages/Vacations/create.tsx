@@ -1,4 +1,4 @@
-import { ContentLayout } from "@/components/panel/content-layout";
+import { ContentLayout } from "@/Components/panel/content-layout";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import {
     Breadcrumb,
@@ -7,9 +7,9 @@ import {
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+} from "@/Components/ui/breadcrumb";
 import { Head, Link } from "@inertiajs/react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/Components/ui/card";
 import { PageProps } from "@/types";
 import { CreateVacationPageProps } from "@/types/vacations";
 import CreateVacationForm from "./partials/create-vacation-form";
