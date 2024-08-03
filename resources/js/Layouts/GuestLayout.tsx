@@ -22,9 +22,9 @@ export default function GuestLayout({ children }: PropsWithChildren) {
                     >
                         Login
                     </Link>
-                    <div className="inline-block ml-4 text-gray-700 dark:text-gray-200">
+                    {/* <div className="inline-block ml-4 text-gray-700 dark:text-gray-200">
                         <ModeToggle />
-                    </div>
+                    </div> */}
                 </div>
             </nav>
             <div
